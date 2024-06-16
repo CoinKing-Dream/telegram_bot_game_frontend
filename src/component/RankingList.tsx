@@ -30,7 +30,7 @@ export default function RankingList() {
   // }, []);
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
-    return new Intl.NumberFormat(locale).format(number);
+    return new Intl.NumberFormat(locale).format(number) ;
   }
   return (
     <div className="md:w-full h-[50vh] mx-auto ">
