@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {RootState} from "../store";
 import { dispatch } from "../store";
-import {walletProfile} from "../types/wallet.tsx";
-import { getAllWallets, updateOnlyUserStore } from "../store/reducers/wallet.tsx";
-import io from "socket.io-client";
+import { getAllWallets } from "../store/reducers/wallet.tsx";
+// import io from "socket.io-client";
 
 export default function RankingList() {
   

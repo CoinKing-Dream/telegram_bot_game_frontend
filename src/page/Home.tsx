@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
 import { insertWallet, updateUserInfo, updateOnlyUserStore, getCurrentTime } from "../store/reducers/wallet";
-import { TonConnectButton, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
+import { TonConnectButton, /*useTonWallet, useTonAddress*/ } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { walletProfile } from "../types/wallet";
-import axios from "../utils/api";
+// import { walletProfile } from "../types/wallet";
+// import axios from "../utils/api";
 
 function Home() {
   
@@ -22,7 +22,7 @@ function Home() {
 
   // const address = useTonAddress();
   const address = "45436434"
-  const wallet = useTonWallet();
+  // const wallet = useTonWallet();
   // console.log("--------->", wallet?.device, address);
   // dispatch(insertWallet(address));   
   // console.log("start" + `${JSON.stringify(userAddress)}`);
