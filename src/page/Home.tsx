@@ -76,7 +76,7 @@ function Home() {
 
     // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(intervalID);
-  }, [userAddress]); // Dependency array includes userAddress to rerun the effect if it changes
+  }, []); // Dependency array includes userAddress to rerun the effect if it changes
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number);
@@ -98,7 +98,7 @@ function Home() {
       );
 
     const newDiv = document.createElement("div");
-    newDiv.textContent = `+${score}`;
+    newDiv.textContent = `+${(Math.floor(score * 10)/10)}`;
     newDiv.style.backgroundImage = "url('image/dollar.png')";
     newDiv.style.backgroundRepeat = "no-repeat";
     newDiv.style.backgroundPosition = "center";
