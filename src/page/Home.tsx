@@ -205,8 +205,8 @@ function Home() {
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-3xl font-bold text-[#939392] max-md:text-2xl max-sm:text-xl">Rune Force Point</h3>
-          <h1 className="text-5xl text-white max-md:text-2xl max-sm:text-3xl">
+          <h3 className="text-3xl font-bold text-[#939392] max-sm:text-2xl">Rune Force Point</h3>
+          <h1 className="text-5xl text-white max-md:text-4xl max-sm:text-3xl">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
         </div>
