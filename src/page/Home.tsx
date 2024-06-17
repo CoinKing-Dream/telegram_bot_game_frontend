@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
@@ -128,7 +128,10 @@ function Home() {
   //    toast.error("Please connect your wallet first");
   //    return;
   //  }
-  if (userAddress.energy < 1) return;
+    if (userAddress.energy < 1) {
+      toast.info("Please try after 24hr.", {autoClose: 1500});
+      return
+    };
    
     switch (userAddress.level) {
       case 0:
@@ -236,7 +239,7 @@ function Home() {
                 className={`w-8 h-8 inline ${imgStatus? "scale-[115%]":"scale-[100%]"}`}
               />
             </span>
-            <span className={`text-3xl ${(userAddress.energy>10)?"text-white":"text-red text-bold"} max-sm:text-2xl`}>{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
+            <span className={`text-3xl ${(userAddress.energy>10)?"text-white text-bold":"text-[#FF0000] text-bold"} red max-sm:text-2xl`}>{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
           </h3>
           
         </div>
