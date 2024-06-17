@@ -16,7 +16,7 @@ export default function Footer() {
         to="/ranking"
         className={`flex flex-col items-center justify-center cursor-pointer transform origin-bottom transition ${
           path === "/ranking"
-            ? "scale-[115%] opacity-100"
+            ? "scale-[115%] max-sm:scale-[110%] opacity-100"
             : "opacity-50 text-white"
         }`}
       >
@@ -26,7 +26,7 @@ export default function Footer() {
       <Link
         to=""
         className={`flex flex-col items-center justify-center cursor-pointer transform origin-bottom transition ${
-          path === "/" ? "scale-[115%] opacity-100" : "opacity-50 text-white"
+          path === "/" ? "scale-[115%] max-sm:scale-[110%] opacity-100" : "opacity-50 text-white"
         }`}
       >
         <img src="/image/mining.png" alt="play" className="w-12 h-12" />
