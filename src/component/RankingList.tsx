@@ -37,12 +37,12 @@ export default function RankingList() {
   }
   return (
     <div className="md:w-full h-[60vh] mx-auto ">
-      <div className="max-h-[60vh] max-sm:max-h-[65vh] overflow-auto">
         <div className="flex px-3 py-1 text-white text-lg max-sm:text-base font-bold justify-center align-middle overflow-y-hidden">
           <div className="text-start w-[20%] flex justify-center">Rank</div>
           <div className="text-start w-[60%] flex justify-center">User</div>
           <div className="text-start w-[20%] flex justify-center">RFP</div>
         </div>
+      <div className="max-h-[60vh] max-sm:max-h-[65vh] overflow-auto">
         {users.map((data, index) => (
           
           <div
