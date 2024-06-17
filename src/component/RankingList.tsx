@@ -80,7 +80,7 @@ export default function RankingList() {
         <div className="text-2xl max-sm:text-base text-start pl-12 max-sm:pl-8 w-[20%] text-white">
           {user.ranking}
         </div>
-        <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[60%] flex ml-10 pl-12 items-center  max-sm:pl-1 max-sm:ml-2">
+        <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[60%] flex ml-10 pl-4 items-center  max-sm:pl-1 max-sm:ml-2">
           <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 max-md:w-9 max-md:h-9 max-sm:h-7 max-sm:w-7 mx-3 max-sm:mx-1" />
           <p className="text-xl max-sm:text-base text-start pl-2 text-white">{user.wallet_address}</p>
         </div>
