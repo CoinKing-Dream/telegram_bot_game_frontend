@@ -69,6 +69,7 @@ export function getWallet(wallet_address: number) {
 }
 
 export function insertWallet(wallet_address: string) {
+  console.log("First Loading...", wallet_address);
   
   return async () => {
     try {
@@ -81,6 +82,7 @@ export function insertWallet(wallet_address: string) {
 }
 
 export function updateUserInfo(wallet_address: string, balance: number, energy: number) {
+  console.log("update...", wallet_address, balance, energy );
   
   return async () => {
     try {
@@ -116,6 +118,7 @@ export function getAllWallets(tempUser: walletProfile) {
 }
 
 export function getCurrentTime(tempUser: walletProfile) {
+  console.log("update", tempUser);
   
   return async () => {
     try {

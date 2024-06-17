@@ -21,14 +21,16 @@ function Home() {
   const [score, setScore] = useState<number>(variable_Comp.Earnings_Per_Tap);
 
   // const address = useTonAddress();
-  const address = "45436434"
+  const address = "123";
   // const wallet = useTonWallet();
   // console.log("--------->", wallet?.device, address);
   // dispatch(insertWallet(address));   
   // console.log("start" + `${JSON.stringify(userAddress)}`);
-  if (address != null && userAddress.wallet_address != address){
-    dispatch(insertWallet(address));
-  }
+  useEffect(() => {
+    if (address != null && userAddress.wallet_address != address ){
+      dispatch(insertWallet(address));
+    }
+  }, []);
 
   
   useEffect(() => {
@@ -60,7 +62,9 @@ function Home() {
   useEffect(() => {
     const intervalID = setInterval(() => {
       const currentUserAddress = userAddressRef.current;
-  
+      console.log(currentUserAddress);
+      console.log(userAddress);
+      
       if (currentUserAddress && currentUserAddress.wallet_address) {
         dispatch(updateUserInfo(currentUserAddress.wallet_address, currentUserAddress.balance, currentUserAddress.energy));
       }
@@ -76,7 +80,6 @@ function Home() {
           dispatch(updateUserInfo(currentUserAddress.wallet_address, currentUserAddress.balance, 500));
       }
   
-      console.log(currentUserAddress);
     }, 1000);
   
     // Cleanup function to clear the interval when the component unmounts
@@ -130,10 +133,11 @@ function Home() {
   };
 
   const handleTap = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   if (!address) {
-  //    toast.error("Please connect your wallet first");
-  //    return;
-  //  }
+    // if (!userAddress.wallet_address) {
+    //  toast.error("Please connect your wallet first");
+    //  return;
+    // }
+
     if (userAddress.energy < 1) {
       toast.info("Please try after 24hr.", {autoClose: 1500});
       return
@@ -209,7 +213,7 @@ function Home() {
       </div>
       <div
         id="mainWindow"
-        className={`relative mt-5 max-sm:mt-2 flex flex-col items-center justify-center h-[60vh] mb-9 max-md:4 max-sm:mb-2`}
+        className={`relative mt-5 max-sm:mt-2 flex flex-col items-center justify-center h-[60vh] max-sm:h-[75vh] mb-9 max-md:4 max-sm:mb-2`}
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
