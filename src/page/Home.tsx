@@ -213,7 +213,7 @@ function Home() {
       </div>
       <div
         id="mainWindow"
-        className={`relative mt-5 max-sm:mt-2 flex flex-col items-center justify-center h-[60vh] max-sm:h-[75vh] mb-9 max-md:4 max-sm:mb-2`}
+        className={`relative mt-5 max-sm:mt-2 flex flex-col items-center justify-center h-[60vh] max-sm:h-[55vh] mb-9 max-md:4 max-sm:mb-2`}
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
