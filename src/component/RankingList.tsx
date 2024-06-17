@@ -73,7 +73,7 @@ export default function RankingList() {
           </div>
         ))}
       </div>
-      <hr className="my-1 border-[#363636] border-2" />
+      <hr className="my-1 border-[#363636] border-2 max-sm:border-1" />
       <div
         className={`flex pl-12 my-3 px-3 max-sm:pl-6 items-center bg-[#5A4C3B] rounded-lg`}
       >
