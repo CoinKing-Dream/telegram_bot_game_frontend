@@ -21,8 +21,11 @@ export default function RankingList() {
   // useEffect(() => {
   //   const socket = io('http://localhost:5000');
   //   socket.on('ranking-update', (data) => {
-  //     setRankings(data.rankings);
-  //   });
+  //     // setRankings(data.rankings);
+  //     console.log("success");
+      
+      
+  // });
 
   //   return () => {
   //     socket.disconnect();
@@ -37,8 +40,8 @@ export default function RankingList() {
       <div className="max-h-[55vh] max-sm:max-h-[63vh] overflow-auto">
         <div className="flex px-3 py-1 text-white text-lg font-bold justify-center align-middle overflow-y-hidden">
           <div className="text-start w-[20%] flex justify-center">Rank</div>
-          <div className="text-start w-[55%] flex justify-center">User</div>
-          <div className="text-start w-[20%] flex justify-center">RuneForce</div>
+          <div className="text-start w-[60%] flex justify-center">User</div>
+          <div className="text-start w-[20%] flex justify-center">RFP</div>
         </div>
         {users.map((data, index) => (
           

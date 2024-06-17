@@ -14,7 +14,7 @@ import { walletProfile, walletStateProps } from '../../types/wallet';
 const initialState: walletStateProps = {
   error: null,
   user: {
-      ranking: 0,
+      ranking: 1,
       wallet_address: '',
       balance: 0,
       energy: 500,
@@ -84,7 +84,7 @@ export function updateUserInfo(wallet_address: string, balance: number, energy: 
   
   return async () => {
     try {
-      const response = await axios.post("/wallet/update", { 
+      await axios.post("/wallet/update", { 
         wallet_address,
         balance,
         energy

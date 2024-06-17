@@ -161,7 +161,7 @@ function Home() {
     }
     
     dispatch(updateOnlyUserStore({
-            ranking:0, 
+            ranking: 1, 
             wallet_address: userAddress.wallet_address, 
             balance: userAddress.balance + score, 
             energy: userAddress.energy - 1, 
