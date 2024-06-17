@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import {RootState} from "../store";
 import { dispatch } from "../store";
 import { getAllWallets } from "../store/reducers/wallet.tsx";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 export default function RankingList() {
   
@@ -18,22 +18,22 @@ export default function RankingList() {
 
   // const [rankings, setRankings] = useState([]);
 
-  useEffect(() => {
-    const socket = io('http://localhost:5000');
-    socket.emit("helo", "world");
-    console.log(socket.active);
-    socket.on('ranking-update', (data) => {
-      // setRankings(data.rankings);
-      console.log("success");
-      console.log("success");
+  // useEffect(() => {
+  //   const socket = io('http://localhost:5000');
+  //   socket.emit("helo", "world");
+  //   console.log(socket.active);
+  //   socket.on('ranking-update', (data) => {
+  //     // setRankings(data.rankings);
+  //     console.log("success");
+  //     console.log("success");
       
       
-  });
+  // });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number) ;
