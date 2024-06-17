@@ -51,7 +51,7 @@ function Home() {
         break;
     }
    
-  }, [])
+  }, [userAddress.level])
  
   useEffect(() => {
     const intervalID = setInterval(() => {
