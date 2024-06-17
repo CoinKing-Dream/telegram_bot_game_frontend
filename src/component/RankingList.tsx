@@ -51,13 +51,13 @@ export default function RankingList() {
               index > 0 && "my-2"
             } px-3 items-center bg-[#363636] rounded-lg`}
           >
-            <div className="text-xl max-sm:text-base text-start ml-3 pl-2 w-[20%] text-white flex justify-center align-middle">
+            <div className="text-xl max-sm:text-base text-start ml-3 pl-2 max-sm:ml-2 max-sm:ml-1 w-[20%] text-white flex justify-center align-middle">
               {index == 0 ? (
-                <img src="image/crown.png" alt="" className="w-[30px] h-[15px] max-md:w-[25px] max-md:h-[13px] max-sm:w-[20px] max-sm:h-[10px]"/>
+                <img src="image/crown.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[15px] max-sm:h-[15px]"/>
               ) : index == 1 ? (
-                <img src="image/trophy.png" alt="" className="w-[30px] h-[15px] max-md:w-[25px] max-md:h-[13px] max-sm:w-[20px] max-sm:h-[10px]"/>
+                <img src="image/trophy.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[15px] max-sm:h-[15px]"/>
               ) : index == 2 ? (
-                <img src="image/star.png" alt=""  className="w-[30px] h-[15px] max-md:w-[25px] max-md:h-[13px] max-sm:w-[20px] max-sm:h-[10px]"/>
+                <img src="image/star.png" alt=""  className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[15px] max-sm:h-[15px]"/>
               ) : (
                 index + 1
               )}
@@ -67,7 +67,7 @@ export default function RankingList() {
               <p className="text-xl max-sm:text-base text-start pl-2 text-white">{data.wallet_address}</p>
             </div>
 
-            <p className="text-xl text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-4 max-sm:ml-2 ">
+            <p className="text-2xl max-sm:text-xl text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-4 max-sm:ml-2 ">
               {formatNumberWithCommas(data.balance)}
             </p>
           </div>
