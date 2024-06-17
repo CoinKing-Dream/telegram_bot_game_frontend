@@ -217,11 +217,11 @@ function Home() {
             className="absolute z-10 left-0 h-[95%] w-[95%]"
           />
           <div
-            className={`relative bg-[url('/image/main.png')] rounded-full bg-cover z-50 w-[400px] h-[400px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[200px] max-sm:h-[200px] max-xm:w-[200px] max-xm:h-[200px] z-10 ${
+            className={`relative bg-[url('/image/main.png')] rounded-full bg-cover z-50 w-[400px] h-[400px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[200px] max-sm:h-[200px] max-xm:w-[200px] max-xm:h-[200px] ${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
-            } ${imgStatus ? " border-[5px]" : "border-0"}`}
+            } ${imgStatus ? " border-[10px]" : "border-0"}`}
             ref={bodyRef}
             onMouseDown={handleMouseDown} 
             onMouseUp={handleMouseLeave}
