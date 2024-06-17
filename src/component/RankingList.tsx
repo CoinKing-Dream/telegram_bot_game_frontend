@@ -75,7 +75,7 @@ export default function RankingList() {
       </div>
       <hr className="border-[#363636] border-2 max-sm:border-1" />
       <div
-        className={`flex my-3 px-3 max-sm:px-1 items-center bg-[#5A4C3B] rounded-lg`}
+        className={`flex my-3 max-sm:my-1 px-3 max-sm:px-1 items-center bg-[#5A4C3B] rounded-lg`}
       >
         <div className="text-xl max-sm:text-base text-start pl-12 max-sm:pl-6 w-[20%] text-white">
           {user.ranking}
