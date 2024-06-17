@@ -237,7 +237,7 @@ function Home() {
                 className={`w-8 h-8 inline ${imgStatus? "scale-[115%]":"scale-[100%]"}`}
               />
             </span>
-            <span className="text-3xl text-white max-sm:text-2xl">{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
+            <span className={`text-3xl ${(userAddress.energy>10)?"text-white":"text-red"} max-sm:text-2xl`}>{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
           </h3>
           
         </div>
