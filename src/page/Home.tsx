@@ -13,10 +13,10 @@ import { RootState } from "../store";
 // import axios from "../utils/api";
 
 function Home() {
-  
   const [tempTab, setTempTab] = useState<number>(0);
   const [randomTab, setRandomTab] = useState<number>(Math.floor(Math.random() * 10) + 1)
   const userAddress = useSelector((state: RootState) => state.wallet.user);
+  const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [score, setScore] = useState<number>(variable_Comp.Earnings_Per_Tap);
 
@@ -52,31 +52,37 @@ function Home() {
     }
    
   }, [userAddress.level])
+
+  useEffect(() => {
+    userAddressRef.current = userAddress;
+  }, [userAddress]);
  
   useEffect(() => {
     const intervalID = setInterval(() => {
-      if (userAddress && userAddress.wallet_address) {
-        dispatch(updateUserInfo(userAddress.wallet_address, userAddress.balance, userAddress.energy));
-      }
-
-      if (userAddress.energy) {
-         dispatch((getCurrentTime(userAddress)));
+      const currentUserAddress = userAddressRef.current;
   
-          let date_1 = new Date(Date.parse(userAddress.createdDate));
-          let date_2 = new Date(Date.parse(userAddress.recoveryEnergyTime));
-          let diff = Math.abs(date_1.getTime() - date_2.getTime()) ;
-          
-          if (diff && diff > 1000 * 60 * 60 * 24)
-            dispatch(updateUserInfo(userAddress.wallet_address, userAddress.balance, 500));
+      if (currentUserAddress && currentUserAddress.wallet_address) {
+        dispatch(updateUserInfo(currentUserAddress.wallet_address, currentUserAddress.balance, currentUserAddress.energy));
       }
-
-      console.log(userAddress);
-      
+  
+      if (currentUserAddress.energy) {
+        dispatch(getCurrentTime(currentUserAddress));
+  
+        let date_1 = new Date(Date.parse(currentUserAddress.createdDate));
+        let date_2 = new Date(Date.parse(currentUserAddress.recoveryEnergyTime));
+        let diff = Math.abs(date_1.getTime() - date_2.getTime());
+  
+        if (diff && diff > 1000 * 60 * 60 * 0.5)
+          dispatch(updateUserInfo(currentUserAddress.wallet_address, currentUserAddress.balance, 500));
+      }
+  
+      console.log(currentUserAddress);
     }, 1000);
-
+  
     // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(intervalID);
   }, []); // Dependency array includes userAddress to rerun the effect if it changes
+
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number);
