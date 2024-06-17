@@ -214,7 +214,7 @@ function Home() {
           <img
             src="/image/shape.png"
             alt=""
-            className="absolute z-10 left-0 h-[100%] w-[100%]"
+            className="absolute z-10 left-0 h-[95%] w-[95%]"
           />
           <div
             className={` relative bg-[url('/image/main.png')] rounded-full bg-cover z-50 w-[400px] h-[400px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[250px] max-sm:h-[250px] max-xm:w-[200px] max-xm:h-[200px] z-10 ${
