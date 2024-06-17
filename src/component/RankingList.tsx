@@ -80,12 +80,12 @@ export default function RankingList() {
         <div className="text-xl max-sm:text-base text-start pl-6 w-[20%] text-white">
           {user.ranking}
         </div>
-        <div className="relative h-11 max-md:h-10 max-sm:h-8 pl-11 ml-4 overflow-hidden w-[60%] flex items-center  max-sm:pl-1 max-sm:ml-1">
-          <img src="/image/mikeT.png" alt="avatar" className="w-11 h-11 max-md:w-10 max-md:h-10 max-sm:h-8 max-sm:w-8 mx-3 max-sm:mx-3" />
+        <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[60%] flex ml-10 pl-12 items-center  max-sm:pl-1 max-sm:ml-2">
+          <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 max-md:w-9 max-md:h-9 max-sm:h-7 max-sm:w-7 mx-3 max-sm:mx-1" />
           <p className="text-xl max-sm:text-base text-start pl-2 text-white">{user.wallet_address}</p>
         </div>
 
-        <p className="text-xl max-sm:text-base text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-1">
+        <p className="text-2xl max-sm:text-xl text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-4 max-sm:ml-2 ">
           {formatNumberWithCommas(user.balance)}
         </p>
       </div>
