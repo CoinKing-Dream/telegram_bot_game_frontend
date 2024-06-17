@@ -38,7 +38,7 @@ export default function RankingList() {
   return (
     <div className="md:w-full h-[50vh] mx-auto ">
       <div className="max-h-[55vh] max-sm:max-h-[63vh] overflow-auto">
-        <div className="flex px-3 py-1 text-white text-lg font-bold justify-center align-middle overflow-y-hidden">
+        <div className="flex px-3 py-1 text-white text-lg max-sm:text-base font-bold justify-center align-middle overflow-y-hidden">
           <div className="text-start w-[20%] flex justify-center">Rank</div>
           <div className="text-start w-[60%] flex justify-center">User</div>
           <div className="text-start w-[20%] flex justify-center">RFP</div>
@@ -77,15 +77,15 @@ export default function RankingList() {
       <div
         className={`flex pl-12 my-3 px-3 max-sm:pl-6 items-center bg-[#5A4C3B] rounded-lg`}
       >
-        <div className="text-xl text-start pl-6 w-[20%] text-white">
+        <div className="text-xl max-sm:text-base text-start pl-6 w-[20%] text-white">
           {user.ranking}
         </div>
         <div className="relative h-12 pl-11 ml-4 overflow-hidden w-[60%] flex items-center  max-sm:pl-1 max-sm:ml-1">
-          <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 mx-3 max-sm:mx-3" />
-          <p className="text-xl text-start pl-2 text-white">{user.wallet_address}</p>
+          <img src="/image/mikeT.png" alt="avatar" className="w-11 h-11 max-md:w-10 max-md:h-10 max-sm:h-8 max-sm:w-8 mx-3 max-sm:mx-3" />
+          <p className="text-xl max-sm:text-base text-start pl-2 text-white">{user.wallet_address}</p>
         </div>
 
-        <p className="text-xl text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-1">
+        <p className="text-xl max-sm:text-base text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-1">
           {formatNumberWithCommas(user.balance)}
         </p>
       </div>
