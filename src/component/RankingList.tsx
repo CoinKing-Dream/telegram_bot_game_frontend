@@ -53,11 +53,11 @@ export default function RankingList() {
           >
             <div className="text-xl max-sm:text-base text-start ml-3 pl-2 max-sm:ml-2 max-sm:ml-1 w-[20%] text-white flex justify-center align-middle">
               {index == 0 ? (
-                <img src="image/crown.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[15px] max-sm:h-[15px]"/>
+                <img src="image/crown.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[19px] max-sm:h-[20px]"/>
               ) : index == 1 ? (
-                <img src="image/trophy.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[15px] max-sm:h-[15px]"/>
+                <img src="image/trophy.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[19px] max-sm:h-[20px]"/>
               ) : index == 2 ? (
-                <img src="image/star.png" alt=""  className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[15px] max-sm:h-[15px]"/>
+                <img src="image/star.png" alt=""  className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[19px] max-sm:h-[20px]"/>
               ) : (
                 index + 1
               )}
