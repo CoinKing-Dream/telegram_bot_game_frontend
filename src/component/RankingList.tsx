@@ -49,9 +49,9 @@ export default function RankingList() {
             key={index}
             className={`flex ${
               index > 0 && "my-2"
-            } px-3 items-center bg-[#363636] rounded-lg`}
+            } px-3 max-sm:px-1 items-center bg-[#363636] rounded-lg`}
           >
-            <div className="text-xl max-sm:text-base text-start ml-3 pl-2 max-sm:ml-2 max-sm:ml-1 w-[20%] text-white flex justify-center align-middle">
+            <div className="text-xl max-sm:text-base text-start ml-3 pl-2 max-sm:ml-2 max-sm:pl-1 w-[20%] text-white flex justify-center align-middle">
               {index == 0 ? (
                 <img src="image/crown.png" alt="" className="w-[30px] h-[25px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[19px] max-sm:h-[20px]"/>
               ) : index == 1 ? (
