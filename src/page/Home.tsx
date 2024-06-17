@@ -195,16 +195,18 @@ function Home() {
       <div className="w-full flex justify-center">
         <TonConnectButton />
       </div>
+      <div className={`relative flex flex-col items-center justify-center `}>
 
       <CountDate level={userAddress.level} />
+      </div>
       <div
         id="mainWindow"
         className={`relative mt-5 flex flex-col items-center justify-center h-[60vh] mb-9 `}
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-3xl font-bold text-[#939392]">Rune Force Point</h3>
-          <h1 className="text-5xl text-white">
+          <h3 className="text-3xl font-bold text-[#939392] max-md:text-2xl max-sm:text-xl">Rune Force Point</h3>
+          <h1 className="text-5xl text-white max-md:text-2xl max-sm:text-3xl">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
         </div>
@@ -215,7 +217,7 @@ function Home() {
             className="absolute z-10 left-0 top-[-50px]"
           />
           <div
-            className={` relative bg-[url('/image/main.png')] rounded-full bg-cover z-50 w-[400px] h-[400px] max-sm:w-[280px] max-sm:h-[280px] z-10 ${
+            className={` relative bg-[url('/image/main.png')] rounded-full bg-cover z-50 w-[400px] h-[400px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[250px] max-sm:h-[250px] max-xm:w-[200px] max-xm:h-[200px] z-10 ${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
@@ -227,15 +229,15 @@ function Home() {
           />
         </div>
         <div className="flex flex-col justify-center items-center mt-3">
-          <h3 className="text-2xl mb-2 text-white">
-            <span className="text-3xl ">
+          <h3 className="text-2xl mb-2 text-white max-sm:text-xl max-sm:mb-1">
+            <span className="text-3xl max-sm:text-2xl">
               <img
                 src="/image/icon/lightning.svg"
                 alt="lightning"
                 className="w-8 h-8 inline"
               />
             </span>
-            <span className="text-3xl text-white">{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
+            <span className="text-3xl text-white max-sm:text-2xl">{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
           </h3>
           
         </div>

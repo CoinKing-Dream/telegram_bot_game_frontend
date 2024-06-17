@@ -4,7 +4,7 @@ export default function CountDate({
   level: number
 }) {
   return (
-    <div className="CountDate flex justify-center gap-8 max-sm:gap-6 items-center w-full mt-4">
+    <div className="CountDate flex justify-center gap-8 max-sm:gap-4 items-center w-full mt-4 max-sm:mt-2">
       <div className={`flex flex-col item-center justify-center ${level == 0 ? "scale-[130%] " : ""} ${level >= 0 ? "opacity-100" : "opacity-50"}`}>
         <img src="image/fire1.png" alt="" width={25} height={25}/>
         <p className="text-md text-white">M</p>   
