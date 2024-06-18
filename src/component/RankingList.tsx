@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import {RootState} from "../store";
 import { dispatch } from "../store";
 import { getAllWallets } from "../store/reducers/wallet.tsx";
+
 // import io from "socket.io-client";
 
 export default function RankingList() {
