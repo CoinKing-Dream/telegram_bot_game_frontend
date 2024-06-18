@@ -76,7 +76,7 @@ export function insertWallet(wallet_address: string) {
   
   return async () => {
     try {
-      const response = await axios.post('/wallet/add', { wallet_address: "222" });
+      const response = await axios.post('/wallet/add', { wallet_address });
       dispatch(wallet.actions.updateUser(response.data));
     } catch (error) {
       dispatch(wallet.actions.hasError(error));
