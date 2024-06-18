@@ -1,14 +1,13 @@
 export interface walletProfile {
-    ranking: number;
     wallet_address: string;
     balance: number;
     energy: number;
-    level: number;
-    recoveryEnergyTime: string;
+    recoveryDate: string;
     createdDate: string;
 }
 export interface walletStateProps {
     user: walletProfile;
     users: walletProfile[];
+    currentDate: string;
     error: object | string | null;
 }

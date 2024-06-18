@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {RootState} from "../store";
 import { dispatch } from "../store";
@@ -8,14 +8,15 @@ import { getAllWallets } from "../store/reducers/wallet.tsx";
 export default function RankingList() {
   
   const user = useSelector((state: RootState) => state.wallet.user);
+  const [ranking, setRanking] = useState<Number>(1);
   const users = useSelector((state: RootState) => state.wallet.users);
   
   useEffect(() => {
-    dispatch(getAllWallets(user));
-    console.log("users", users);
-    
-  }, []);
-
+    dispatch(getAllWallets());
+    if (user.wallet_address){
+      setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+    }
+  }, [user, users]);
   // const [rankings, setRankings] = useState([]);
 
   // useEffect(() => {
@@ -26,8 +27,6 @@ export default function RankingList() {
   //     // setRankings(data.rankings);
   //     console.log("success");
   //     console.log("success");
-      
-      
   // });
 
   //   return () => {
@@ -81,7 +80,7 @@ export default function RankingList() {
         className={`flex my-3 max-sm:my-1 px-1 max-sm:px-1 items-center bg-[#5A4C3B] rounded-lg`}
       >
         <div className="text-2xl max-sm:text-base text-start pl-12 max-sm:pl-8 w-[20%] text-white">
-          {user.ranking}
+          {ranking.toString()}
         </div>
         <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[60%] flex ml-10 pl-4 items-center  max-sm:pl-1 max-sm:ml-2">
           <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 max-md:w-9 max-md:h-9 max-sm:h-7 max-sm:w-7 mx-3 max-sm:mx-1" />

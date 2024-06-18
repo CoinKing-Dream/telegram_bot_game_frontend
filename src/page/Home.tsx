@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
-import { insertWallet, updateUserInfo, updateOnlyUserStore, getCurrentTime } from "../store/reducers/wallet";
-import { TonConnectButton, /*useTonWallet, useTonAddress*/ } from "@tonconnect/ui-react";
+import { insertWallet, updateUserInfo, getCurrentTime } from "../store/reducers/wallet";
+import { TonConnectButton, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -14,28 +14,30 @@ import { RootState } from "../store";
 
 function Home() {
   const [tempTab, setTempTab] = useState<number>(0);
+  const [level, setLevel] = useState<number>(0);
   const [randomTab, setRandomTab] = useState<number>(Math.floor(Math.random() * 10) + 1)
-  const userAddress = useSelector((state: RootState) => state.wallet.user);
-  const userAddressRef = useRef(userAddress);
-  const bodyRef = useRef<HTMLDivElement>(null);
   const [score, setScore] = useState<number>(variable_Comp.Earnings_Per_Tap);
 
-  // const address = useTonAddress();
-  const address = "123";
-  // const wallet = useTonWallet();
-  // console.log("--------->", wallet?.device, address);
-  // dispatch(insertWallet(address));   
+  const userAddress = useSelector((state: RootState) => state.wallet.user);
+  const currentDate = useSelector((state: RootState) => state.wallet.currentDate);
+  const userAddressRef = useRef(userAddress);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  const address = useTonAddress();
+  // const address = "222";
+  const wallet = useTonWallet();
+  console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
   useEffect(() => {
     if (address != null && userAddress.wallet_address != address ){
       dispatch(insertWallet(address));
-    }
-  }, []);
+    } 
+  }, [address]);
 
   
   useEffect(() => {
 
-    switch (userAddress.level) {
+    switch (level) {
       case 0:
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_1);
         break;
@@ -53,7 +55,7 @@ function Home() {
         break;
     }
    
-  }, [userAddress.level])
+  }, [level])
 
   useEffect(() => {
     userAddressRef.current = userAddress;
@@ -62,30 +64,53 @@ function Home() {
   useEffect(() => {
     const intervalID = setInterval(() => {
       const currentUserAddress = userAddressRef.current;
-      console.log(currentUserAddress);
-      console.log(userAddress);
+      const tempUser = {
+        wallet_address: currentUserAddress.wallet_address,
+        balance: currentUserAddress.balance,
+        energy: currentUserAddress.energy,
+        recoveryDate: currentUserAddress.recoveryDate,
+        createdDate: currentUserAddress.createdDate
+      }
+
+      dispatch(getCurrentTime(tempUser));
       
-      if (currentUserAddress && currentUserAddress.wallet_address) {
-        dispatch(updateUserInfo(currentUserAddress.wallet_address, currentUserAddress.balance, currentUserAddress.energy));
+      if (!currentUserAddress.energy) {
+        if (currentUserAddress.recoveryDate != '') {
+          let date_1 = new Date(Date.parse(currentUserAddress.createdDate));
+          let date_2 = new Date(Date.parse(currentUserAddress.recoveryDate));
+          let diff = date_1.getTime() - date_2.getTime();
+          
+          if (diff > 1000 * 60 * 60 * 24)
+            dispatch(updateUserInfo(Object.assign({}, tempUser, {energy: 500, recoveryDate: ''})));
+        } else {
+          dispatch(updateUserInfo(Object.assign({}, tempUser, {recoveryDate: currentDate})));
+        }
       }
-  
-      if (currentUserAddress.energy) {
-        dispatch(getCurrentTime(currentUserAddress));
-  
+
+      if (currentUserAddress) {
         let date_1 = new Date(Date.parse(currentUserAddress.createdDate));
-        let date_2 = new Date(Date.parse(currentUserAddress.recoveryEnergyTime));
-        let diff = Math.abs(date_1.getTime() - date_2.getTime());
-  
-        if (diff && diff > 1000 * 60 * 60 * 0.5)
-          dispatch(updateUserInfo(currentUserAddress.wallet_address, currentUserAddress.balance, 500));
+
+        const ageDifference = Math.floor(Math.abs(date_1.getTime() - new Date(Date.parse(currentDate)).getTime()) / 1000 );
+
+        const secondInday = 60 * 60 * 24;
+
+        if (ageDifference < 1 * secondInday) {
+          setLevel(0);
+        } else if (ageDifference >= 1 * secondInday && ageDifference < 2 * secondInday ) {
+          setLevel(1);
+        } else if (ageDifference >= 2 * secondInday  && ageDifference < 3 * secondInday ) {
+          setLevel(2);
+        } else if (ageDifference >= 3 * secondInday  && ageDifference < 4 * secondInday ) {
+          setLevel(3);
+        } else if (ageDifference >= 4 * secondInday ) {
+          setLevel(4);
+        }
+        dispatch(getCurrentTime(Object.assign({}, tempUser, {level})));
       }
-  
     }, 1000);
   
-    // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(intervalID);
-  }, []); // Dependency array includes userAddress to rerun the effect if it changes
-
+  }, []); 
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number);
@@ -107,7 +132,7 @@ function Home() {
       );
 
     const newDiv = document.createElement("div");
-    newDiv.textContent = `+${(Math.floor(score * 10)/10)}`;
+    newDiv.textContent = `+1`;
     newDiv.style.backgroundImage = "url('image/dollar.png')";
     newDiv.style.backgroundRepeat = "no-repeat";
     newDiv.style.backgroundPosition = "center";
@@ -122,7 +147,7 @@ function Home() {
     newDiv.style.position = "absolute";
     newDiv.style.left = `${x + 50}px`;
     newDiv.style.top = `${y}px`;
-    newDiv.style.color = score == variable_Comp.Earnings_Per_Tap ? "yellow" : "red";
+    newDiv.style.color = "yellow"; //score == variable_Comp.Earnings_Per_Tap ? "yellow" : "red";
     newDiv.className =
       "dynamic-div animate-fadeouttopright transform max-sm:text-3xl text-5xl font-bold transition not-selectable";
 
@@ -139,11 +164,11 @@ function Home() {
     // }
 
     if (userAddress.energy < 1) {
-      toast.info("Please try after 24hr.", {autoClose: 1500});
+      toast.info("Please try after 24hr.", {autoClose: 1000});
       return
     };
    
-    switch (userAddress.level) {
+    switch (level) {
       case 0:
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_1);
         break;
@@ -171,16 +196,16 @@ function Home() {
       setRandomTab(Math.floor(Math.random() * 10) + 1);
       setTempTab(0);
     }
+
+    const updateUser = {
+      wallet_address: userAddress.wallet_address, 
+      balance: userAddress.balance + score, 
+      energy: userAddress.energy - 1, 
+      recoveryDate: userAddress.recoveryDate, 
+      createdDate: userAddress.createdDate,
+    }
     
-    dispatch(updateOnlyUserStore({
-            ranking: 1, 
-            wallet_address: userAddress.wallet_address, 
-            balance: userAddress.balance + score, 
-            energy: userAddress.energy - 1, 
-            level: userAddress.level,
-            recoveryEnergyTime: userAddress.recoveryEnergyTime, 
-            createdDate: userAddress.createdDate,
-      }));
+    dispatch(updateUserInfo(updateUser));
 
     handleClick(event);
   };
@@ -209,7 +234,7 @@ function Home() {
       </div>
       <div className={`relative flex flex-col items-center justify-center `}>
 
-      <CountDate level={userAddress.level} />
+      <CountDate level={level} />
       </div>
       <div
         id="mainWindow"
@@ -217,7 +242,7 @@ function Home() {
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-3xl font-bold text-[#939392] max-sm:text-2xl">Rune Force Point</h3>
+          <h3 className="text-3xl font-bold text-[#939392] max-sm:text-2xl">Force Points</h3>
           <h1 className="text-5xl text-white max-md:text-4xl max-sm:text-3xl">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
