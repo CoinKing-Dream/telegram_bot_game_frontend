@@ -6,17 +6,24 @@ import { getAllWallets } from "../store/reducers/wallet.tsx";
 
 // import io from "socket.io-client";
 
-export default function RankingList() {
+export default function RankingList({selectedOption}: any) {
   
   const user = useSelector((state: RootState) => state.wallet.user);
   const [ranking, setRanking] = useState<Number>(1);
   const users = useSelector((state: RootState) => state.wallet.users);
   
   useEffect(() => {
-    dispatch(getAllWallets());
-    if (user.wallet_address){
-      setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+    if (selectedOption == "Recently"){
+      dispatch(getAllWallets());
+      if (user.wallet_address){
+        setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+      }
+    } else if (selectedOption == "Weekly") {
+
+    } else {
+      
     }
+   
   }, [user, users]);
   // const [rankings, setRankings] = useState([]);
 
@@ -39,7 +46,7 @@ export default function RankingList() {
     return new Intl.NumberFormat(locale).format(number) ;
   }
   return (
-    <div className="md:w-full h-[60vh] mx-auto ">
+    <div className="ms:w-full h-[55vh] mx-5">
         <div className="flex px-1 py-3 max-sm:py-1 text-white text-2xl max-sm:text-base font-bold justify-center align-middle overflow-y-hidden">
           <div className="text-start w-[20%] flex justify-center">Rank</div>
           <div className="text-start w-[60%] flex justify-center">User</div>
@@ -78,7 +85,7 @@ export default function RankingList() {
       </div>
       <hr className="border-[#363636] border-2 max-sm:border-1" />
       <div
-        className={`flex my-3 max-sm:my-1 px-1 max-sm:px-1 items-center bg-[#5A4C3B] rounded-lg`}
+        className={`flex my-4 max-sm:my-1 px-1 max-sm:px-1 items-center bg-[#5A4C3B] rounded-lg`}
       >
         <div className="text-2xl max-sm:text-base text-start pl-12 max-sm:pl-8 w-[20%] text-white">
           {ranking.toString()}

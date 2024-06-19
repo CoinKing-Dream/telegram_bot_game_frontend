@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       
-        <div className="App w-[700px] h-[75vh] max-sm:w-[400px] max-sm:h-[70vh]">
+        <div className=" App w-[700px] h-[75vh] max-sm:w-[400px] max-sm:h-[70vh]">
           <ReduxProvider store={store}>
             <Routes>
               <Route path="/" element={<Layout />}>

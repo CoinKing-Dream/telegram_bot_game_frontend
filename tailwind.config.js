@@ -18,6 +18,24 @@ export default {
         'wave-animation': 'waveEffect 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
+    screens: {
+      'xm': '320px',
+      
+      'sm': '425px',
+      // => @media (min-width: 425px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    }
   },
   plugins: [],
 };

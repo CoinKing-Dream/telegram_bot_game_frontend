@@ -16,6 +16,8 @@ const initialState: walletStateProps = {
   user: {
       wallet_address: '',
       balance: 0,
+      weekBalance: 0,
+      monthBalance: 0,
       energy: 500,
       recoveryDate: '',
       createdDate: ''
@@ -61,16 +63,6 @@ export default wallet.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getWallet(wallet_address: number) {
-  return async () => {
-    try {
-      const response = await axios.post('/wallet/currentuserinfo', { wallet_address });
-      dispatch(wallet.actions.updateUser(response.data));
-    } catch (error) {
-      dispatch(wallet.actions.hasError(error));
-    }
-  };
-}
 
 export function insertWallet(wallet_address: string) {
   
@@ -84,16 +76,35 @@ export function insertWallet(wallet_address: string) {
   };
 }
 
-export function updateUserInfo(tempUser: walletProfile) {
-  
+// Update data of store in real-time
+export function updateUserInfo(tempUser: walletProfile) 
+{
   return async () => {
     try {
       dispatch(wallet.actions.updateUser(tempUser));
-      await axios.post("/wallet/update", tempUser);
     } catch (error) {
       dispatch(wallet.actions.hasError(error));
     }
   }
+}
+
+//Update data of DB after 200ms when it is clicked for "Shoot" button.
+export function updateUserInforDB(tempUser: walletProfile) {
+  return async () => {
+    await axios.post("/wallet/update", tempUser);
+  }
+}
+
+// Get data of current user from DB.
+export function getWallet(wallet_address: number) {
+  return async () => {
+    try {
+      const response = await axios.post('/wallet/currentuserinfo', { wallet_address });
+      dispatch(wallet.actions.updateUser(response.data));
+    } catch (error) {
+      dispatch(wallet.actions.hasError(error));
+    }
+  };
 }
 
 // Get all of wallet's info
@@ -110,6 +121,7 @@ export function getAllWallets() {
 
 // Get and update for date of date, time
 export function getCurrentTime(tempUser: walletProfile) {
+  console.log(tempUser);
   
   return async () => {
     try {

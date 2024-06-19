@@ -4,11 +4,13 @@ import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
-import { insertWallet, updateUserInfo, getCurrentTime } from "../store/reducers/wallet";
+import { insertWallet, updateUserInfo, getCurrentTime, updateUserInforDB } from "../store/reducers/wallet";
 import { TonConnectButton, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import tapSound from "../assets/sound/water.wav";
+
 // import { walletProfile } from "../types/wallet";
 // import axios from "../utils/api";
 
@@ -23,8 +25,8 @@ function Home() {
   const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const address = useTonAddress();
-  // const address = "222";
+  // const address = useTonAddress();
+  const address = "222";
   const wallet = useTonWallet();
   console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
@@ -65,13 +67,14 @@ function Home() {
     const intervalID = setInterval(() => {
       const currentUserAddress = userAddressRef.current;
       const tempUser = {
-        wallet_address: currentUserAddress.wallet_address,
-        balance: currentUserAddress.balance,
-        energy: currentUserAddress.energy,
-        recoveryDate: currentUserAddress.recoveryDate,
-        createdDate: currentUserAddress.createdDate
+            wallet_address: currentUserAddress.wallet_address,
+            balance: currentUserAddress.balance,
+            weekBalance: currentUserAddress.weekBalance,
+            monthBalance: currentUserAddress.monthBalance,
+            energy: currentUserAddress.energy,
+            recoveryDate: currentUserAddress.recoveryDate,
+            createdDate: currentUserAddress.createdDate
       }
-
       dispatch(getCurrentTime(tempUser));
       
       if (!currentUserAddress.energy) {
@@ -87,6 +90,7 @@ function Home() {
         }
       }
 
+      // Update level of current user
       if (currentUserAddress) {
         let date_1 = new Date(Date.parse(currentUserAddress.createdDate));
 
@@ -105,9 +109,18 @@ function Home() {
         } else if (ageDifference >= 4 * secondInday ) {
           setLevel(4);
         }
-        dispatch(getCurrentTime(Object.assign({}, tempUser, {level})));
       }
-    }, 1000);
+
+      // Update weekly and monthly balance of current user.
+      if (currentUserAddress) {
+        const now = new Date(Date.parse(currentDate));
+        
+        // dispatch(updateUserInfo(Object.assign({}, tempUser, {weekBalance: 0})));
+
+        // dispatch(updateUserInfo(Object.assign({}, tempUser, {monthBalance: 0})));
+      }
+
+    }, 800);
   
     return () => clearInterval(intervalID);
   }, []); 
@@ -133,7 +146,7 @@ function Home() {
 
     const newDiv = document.createElement("div");
     newDiv.textContent = `+1`;
-    newDiv.style.backgroundImage = "url('image/dollar.png')";
+    newDiv.style.backgroundImage = "url('image/dollar.svg')";
     newDiv.style.backgroundRepeat = "no-repeat";
     newDiv.style.backgroundPosition = "center";
     newDiv.style.fontSize = "35px";
@@ -200,12 +213,22 @@ function Home() {
     const updateUser = {
       wallet_address: userAddress.wallet_address, 
       balance: userAddress.balance + score, 
+      weekBalance: userAddress.weekBalance + score, 
+      monthBalance: userAddress.monthBalance + score, 
       energy: userAddress.energy - 1, 
       recoveryDate: userAddress.recoveryDate, 
       createdDate: userAddress.createdDate,
     }
     
     dispatch(updateUserInfo(updateUser));
+
+    setTimeout(() => {
+      dispatch(updateUserInforDB(updateUser));
+      console.log("200ms", updateUser);
+    }, 100);
+
+    const audio = new Audio(tapSound);
+    audio.play();
 
     handleClick(event);
   };
@@ -227,22 +250,21 @@ function Home() {
   // }
 
   return (
-    <div className="mt-8 mb-5 max-sm:mt-3">
+    <div className="bg-blend-exclusion mt-10 max-md:mt-8 max-sm:mt-4">
       <ToastContainer />
-      <div className="w-full flex justify-center">
+      <div className="my-3 max-sm:my-1 w-full flex justify-center">
         <TonConnectButton />
       </div>
-      <div className={`relative flex flex-col items-center justify-center `}>
-
-      <CountDate level={level} />
+      <div className="relative flex flex-col items-center justify-center">
+        <CountDate level={level} />
       </div>
       <div
         id="mainWindow"
-        className={`relative mt-5 max-sm:mt-2 flex flex-col items-center justify-center h-[60vh] max-sm:h-[63vh] mb-9 max-md:4 max-sm:mb-2`}
+        className={`relative flex flex-col items-center justify-center h-[60vh] max-md:h-[65vh] max-sm:h-[65vh] mb-9 max-md:mb-7 max-sm:mb-4`}
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-3xl font-bold text-[#939392] max-sm:text-2xl">Force Points</h3>
+          <h3 className="text-3xl font-bold text-[yellow] max-sm:text-2xl">Force Points</h3>
           <h1 className="text-5xl text-white max-md:text-4xl max-sm:text-3xl">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
@@ -251,10 +273,10 @@ function Home() {
           <img
             src="/image/shape.png"
             alt=""
-            className="absolute z-10 left-0 h-[95%] w-[95%]"
+            className="absolute z-10 left-0 h-[95%] w-[95%] "
           />
           <div id="rippleButton"
-            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[400px] h-[400px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[200px] max-sm:h-[200px] max-xm:w-[200px] max-xm:h-[200px] ${
+            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[400px] h-[400px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[75vw] max-sm:h-[75vw]  max-xm:w-[200px] max-xm:h-[200px] ${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
