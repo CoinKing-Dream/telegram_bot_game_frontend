@@ -26,8 +26,8 @@ function Home() {
   const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const address = useTonAddress();
-  // const address = "UQCaAcIsJkFnCME9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0Z#";
+  let address = useTonAddress();
+   address = "UQCaAcIsJkFnCME9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0Z#";
   const wallet = useTonWallet();
   console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
