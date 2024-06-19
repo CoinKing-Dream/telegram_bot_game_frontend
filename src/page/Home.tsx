@@ -279,7 +279,7 @@ function Home() {
             className="absolute z-10 left-0 h-[85vw] w-[85vw] "
           />
           <div id="rippleButton"
-            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[350px] h-[350px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[75vw] max-sm:h-[75vw]  max-xm:w-[200px] max-xm:h-[200px] ${
+            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[350px] h-[350px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[60vw] max-sm:h-[60vw]${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
