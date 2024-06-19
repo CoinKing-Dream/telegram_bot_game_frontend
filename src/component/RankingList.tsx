@@ -59,7 +59,7 @@ export default function RankingList({selectedOption}: any) {
             key={index}
             className={`flex ${
               index > 0 && "my-2"
-            } px-3 max-sm:px-1 items-center bg-[#363636] rounded-lg`}
+            } px-3 max-sm:px-1 items-center bg-[#363636] rounded-lg py-1`}
           >
             <div className="text-xl max-sm:text-base text-start w-[10%] text-white flex justify-center align-middle">
               {index == 0 ? (
@@ -74,10 +74,10 @@ export default function RankingList({selectedOption}: any) {
             </div>
             <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[80%] flex items-center">
               <img src="/image/mikeT.png" alt="avatar" className="w-8 h-8 max-md:w-7 max-md:h-7 max-sm:h-5 max-sm:w-5 mx-3 max-sm:mx-1" />
-              <p className="text-md max-sm:text-[11px] text-start text-white break-all">{data.wallet_address}</p>
+              <p className="text-md max-sm:text-[10px] text-start text-white break-all">{data.wallet_address}</p>
             </div>
 
-            <p className="text-xl text-bold text-white w-[10%] flex items-center ml-2 max-sm:text-base max-sm:ml-0">
+            <p className="text-xl text-bold text-white w-[10%] flex items-center justify-center ml-2 max-sm:text-base max-sm:ml-0">
               {formatNumberWithCommas(data.balance)}
             </p>
           </div>
@@ -87,7 +87,7 @@ export default function RankingList({selectedOption}: any) {
       {
       user.wallet_address?
       <div
-        className={`flex px-2 max-sm:px-1 my-4 items-center bg-[#5A4C3B] rounded-lg`}
+        className={`flex px-2 max-sm:px-1 my-4 items-center bg-[#5A4C3B] rounded-lg py-1`}
       >
         <div className="text-xl max-sm:text-base text-start w-[10%] text-white flex justify-center align-middle">
           {ranking.toString()}

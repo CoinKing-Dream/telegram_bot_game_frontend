@@ -2,8 +2,9 @@ import { useState } from "react";
 import RankingList from "../component/RankingList";
 import { Menu, MenuHandler,MenuList,MenuItem, Avatar} from "@material-tailwind/react";
 
+
 export default function Ranking() {
-  const [selectedOption, setSelectedOption] = useState<string>("Recently");
+  const [selectedOption] = useState<string>("Recently");//setSelectedOption
   console.log(selectedOption);
   
 
@@ -12,7 +13,7 @@ export default function Ranking() {
       <div className="flex justify-center items-center">
         <h1 className="z-1 text-4xl text-bold max-sm:text-2xl mb-3 max-sm:mb-1 max-w-[500px] mx-auto text-start text-white flex justify-center font-bold">Ranking</h1>
         <div className="w-12 max-sm:w-10 text-center  flex justify-center items-center z-10">
-          <Menu className="rounded-lg shadow-lg overflow-hidden">
+          {/* <Menu className={"rounded-lg shadow-lg overflow-hidden"}>
             <MenuHandler>
               <Avatar
                 variant="circular"
@@ -33,7 +34,7 @@ export default function Ranking() {
                 Monthly
               </MenuItem>
             </MenuList>
-         </Menu>
+         </Menu> */}
         </div>
       </div>
       <RankingList selectedOption={selectedOption}/>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import clickSound from "../assets/sound/pong.wav";
 
 export default function Footer() {
   const location = useLocation();
@@ -14,6 +15,11 @@ export default function Footer() {
     >
       <Link
         to="/ranking"
+        onClick={() => {
+            const audio = new Audio(clickSound);
+            audio.play();
+          }          
+        }
         className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
           path === "/ranking"
             ? "scale-[115%] max-sm:scale-[110%] opacity-100"
@@ -25,6 +31,11 @@ export default function Footer() {
       </Link>
       <Link
         to=""
+        onClick={() => {
+          const audio = new Audio(clickSound);
+          audio.play();
+          }          
+        }
         className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
           path === "/" ? "scale-[115%] max-sm:scale-[110%] opacity-100" : "opacity-50 text-white"
         }`}
