@@ -172,12 +172,12 @@ function Home() {
   };
 
   const handleTap = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!userAddress.wallet_address) {
-     toast.error("Please connect your wallet first");
-     const audio = new Audio(errorSond);
-     audio.play();
-     return;
-    }
+    // if (!userAddress.wallet_address) {
+    //  toast.error("Please connect your wallet first");
+    //  const audio = new Audio(errorSond);
+    //  audio.play();
+    //  return;
+    // }
 
     if (userAddress.energy < 1) {
       toast.info("Please try after 24hr.", {autoClose: 1000});
@@ -279,7 +279,7 @@ function Home() {
             className="absolute z-10 left-0 h-[85vw] w-[85vw] "
           />
           <div id="rippleButton"
-            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[350px] h-[350px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[60vw] max-sm:h-[60vw]${
+            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[350px] h-[350px] max-md:w-[300px] max-md:h-[300px] max-sm:w-[150px] max-sm:h-[150px]${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
