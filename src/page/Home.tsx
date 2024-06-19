@@ -267,8 +267,8 @@ function Home() {
       >
        
         <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-3xl font-bold text-[yellow] max-sm:text-2xl">Force Points</h3>
-          <h1 className="text-5xl text-white max-md:text-4xl max-sm:text-3xl">
+          <h3 className="text-2xl font-bold text-[yellow] max-sm:text-xl">Force Points</h3>
+          <h1 className="text-3xl text-white max-md:text-4xl max-sm:text-2xl">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
         </div>
