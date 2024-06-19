@@ -61,7 +61,7 @@ export default function RankingList({selectedOption}: any) {
               index > 0 && "my-2"
             } px-3 max-sm:px-1 items-center bg-[#363636] rounded-lg`}
           >
-            <div className="text-2xl max-sm:text-base text-start ml-3 pl-2 max-sm:ml-2 max-sm:pl-1 w-[10%] text-white flex justify-center align-middle">
+            <div className="text-xl max-sm:text-base text-start ml-3 pl-2 max-sm:ml-2 max-sm:pl-1 w-[10%] text-white flex justify-center align-middle">
               {index == 0 ? (
                 <img src="image/crown.png" alt="" className="w-[30px] h-[30px] max-md:w-[20px] max-md:h-[20px] max-sm:w-[19px] max-sm:h-[20px]"/>
               ) : index == 1 ? (
@@ -74,7 +74,7 @@ export default function RankingList({selectedOption}: any) {
             </div>
             <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[75%] flex ml-10 pl-12 items-center  max-sm:pl-1 max-sm:ml-2">
               <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 max-md:w-9 max-md:h-9 max-sm:h-7 max-sm:w-7 mx-3 max-sm:mx-1" />
-              <p className="text-xl max-sm:text-base text-start pl-2 text-white">{data.wallet_address}</p>
+              <p className="text-xl max-sm:text-xm text-start pl-2 text-white">{data.wallet_address}</p>
             </div>
 
             <p className="text-2xl max-sm:text-xl text-start ml-12 pl-12 w-[15%] text-white max-sm:pl-4 max-sm:ml-2 ">
@@ -92,7 +92,7 @@ export default function RankingList({selectedOption}: any) {
         </div>
         <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[60%] flex ml-10 pl-4 items-center  max-sm:pl-1 max-sm:ml-2">
           <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 max-md:w-9 max-md:h-9 max-sm:h-7 max-sm:w-7 mx-3 max-sm:mx-1" />
-          <p className="text-xl max-sm:text-base text-start pl-2 text-white">{user.wallet_address}</p>
+          <p className="text-xl max-sm:text-xm text-start pl-2 text-white">{user.wallet_address}</p>
         </div>
 
         <p className="text-2xl max-sm:text-xl text-start ml-12 pl-12 w-[30%] text-white max-sm:pl-4 max-sm:ml-2 ">
