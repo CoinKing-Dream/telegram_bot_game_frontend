@@ -1,6 +1,6 @@
 import { useState } from "react";
 import RankingList from "../component/RankingList";
-import { Menu, MenuHandler,MenuList,MenuItem, Avatar} from "@material-tailwind/react";
+// import { Menu, MenuHandler,MenuList,MenuItem, Avatar} from "@material-tailwind/react";
 
 
 export default function Ranking() {
