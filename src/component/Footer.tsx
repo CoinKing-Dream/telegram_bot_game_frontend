@@ -20,9 +20,9 @@ export default function Footer() {
             audio.play();
           }          
         }
-        className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
+        className={`hover:scale-y-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
           path === "/ranking"
-            ? "scale-[115%] max-sm:scale-[110%] opacity-100"
+            ? "-translate-y-2 scale-y-[125%] max-sm:scale-y-[110%] opacity-100"
             : "opacity-50 text-white"
         }`}
       >
@@ -36,8 +36,8 @@ export default function Footer() {
           audio.play();
           }          
         }
-        className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
-          path === "/" ? "scale-[115%] max-sm:scale-[110%] opacity-100" : "opacity-50 text-white"
+        className={`  hover:scale-y-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
+          path === "/" ? "-translate-y-2 scale-y-[125%] max-sm:scale-y-[110%] opacity-100" : "opacity-50 text-white"
         }`}
       >
         <img src="/image/mining.png" alt="play" className="w-12 h-12 max-sm:w-8 max-sm:h-8" />
