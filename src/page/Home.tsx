@@ -26,7 +26,7 @@ function Home() {
   const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const address = useTonAddress();
+  const address = useTonAddress(true);
   //  address = "UQCaAcIsJkFnCME9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0Z#";
   const wallet = useTonWallet();
   console.log("--------->", wallet?.device, address);
@@ -67,6 +67,8 @@ function Home() {
   useEffect(() => {
     const intervalID = setInterval(() => {
       const currentUserAddress = userAddressRef.current;
+      if (!currentUserAddress.wallet_address) return;
+
       const tempUser = {
             wallet_address: currentUserAddress.wallet_address,
             balance: currentUserAddress.balance,
