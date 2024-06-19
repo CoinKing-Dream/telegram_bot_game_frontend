@@ -11,7 +11,7 @@ export default function Footer() {
   }, [location]);
   return (
     <div
-      className="grid grid-cols-2 gap-10 justify-center items-center z-100"
+      className="grid grid-cols-2 gap-10 justify-center items-center z-40"
     >
       <Link
         to="/ranking"
