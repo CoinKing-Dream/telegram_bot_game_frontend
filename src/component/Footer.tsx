@@ -14,7 +14,7 @@ export default function Footer() {
     >
       <Link
         to="/ranking"
-        className={`flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition ${
+        className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
           path === "/ranking"
             ? "scale-[115%] max-sm:scale-[110%] opacity-100"
             : "opacity-50 text-white"
@@ -25,7 +25,7 @@ export default function Footer() {
       </Link>
       <Link
         to=""
-        className={`flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition ${
+        className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
           path === "/" ? "scale-[115%] max-sm:scale-[110%] opacity-100" : "opacity-50 text-white"
         }`}
       >
