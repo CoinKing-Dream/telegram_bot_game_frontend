@@ -25,8 +25,8 @@ function Home() {
   const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  // const address = useTonAddress();
-  const address = "222";
+  const address = useTonAddress();
+  // const address = "222";
   const wallet = useTonWallet();
   console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
@@ -113,7 +113,7 @@ function Home() {
 
       // Update weekly and monthly balance of current user.
       if (currentUserAddress) {
-        const now = new Date(Date.parse(currentDate));
+        // const now = new Date(Date.parse(currentDate));
         
         // dispatch(updateUserInfo(Object.assign({}, tempUser, {weekBalance: 0})));
 
