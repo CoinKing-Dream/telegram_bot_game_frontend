@@ -171,10 +171,10 @@ function Home() {
   };
 
   const handleTap = (event: React.MouseEvent<HTMLDivElement>) => {
-    // if (!userAddress.wallet_address) {
-    //  toast.error("Please connect your wallet first");
-    //  return;
-    // }
+    if (!userAddress.wallet_address) {
+     toast.error("Please connect your wallet first");
+     return;
+    }
 
     if (userAddress.energy < 1) {
       toast.info("Please try after 24hr.", {autoClose: 1000});
@@ -250,9 +250,9 @@ function Home() {
   // }
 
   return (
-    <div className="bg-blend-exclusion mt-10 max-md:mt-8 max-sm:mt-4">
+    <div className="bg-blend-exclusion mt-10 max-md:mt-5 max-sm:mt-2">
       <ToastContainer />
-      <div className="my-3 max-sm:my-1 w-full flex justify-center">
+      <div className="my-3 max-md:my-2 max-sm:mt-1 w-full flex justify-center">
         <TonConnectButton />
       </div>
       <div className="relative flex flex-col items-center justify-center">
