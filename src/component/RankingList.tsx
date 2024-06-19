@@ -48,9 +48,9 @@ export default function RankingList({selectedOption}: any) {
   return (
     <div className="ms:w-full h-[55vh] mx-5">
         <div className="flex px-1 py-3 max-sm:py-1 text-white text-2xl max-sm:text-base font-bold justify-center align-middle overflow-y-hidden">
-          <div className="text-start w-[20%] flex justify-center">Rank</div>
-          <div className="text-start w-[60%] flex justify-center">User</div>
-          <div className="text-start w-[20%] flex justify-center">RFP</div>
+          <div className="text-start w-[10%] flex justify-center">Rank</div>
+          <div className="text-start w-[75%] flex justify-center">User</div>
+          <div className="text-start w-[15%] flex justify-center">RFP</div>
         </div>
       <div className="max-h-[52vh] max-sm:max-h-[65vh] overflow-auto">
         {users.map((data, index) => (
@@ -72,12 +72,12 @@ export default function RankingList({selectedOption}: any) {
                 index + 1
               )}
             </div>
-            <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[60%] flex ml-10 pl-12 items-center  max-sm:pl-1 max-sm:ml-2">
+            <div className="relative h-10 max-md:h-9 max-sm:h-7 overflow-hidden w-[75%] flex ml-10 pl-12 items-center  max-sm:pl-1 max-sm:ml-2">
               <img src="/image/mikeT.png" alt="avatar" className="w-10 h-10 max-md:w-9 max-md:h-9 max-sm:h-7 max-sm:w-7 mx-3 max-sm:mx-1" />
               <p className="text-xl max-sm:text-base text-start pl-2 text-white">{data.wallet_address}</p>
             </div>
 
-            <p className="text-2xl max-sm:text-xl text-start ml-12 pl-12 w-[20%] text-white max-sm:pl-4 max-sm:ml-2 ">
+            <p className="text-2xl max-sm:text-xl text-start ml-12 pl-12 w-[15%] text-white max-sm:pl-4 max-sm:ml-2 ">
               {formatNumberWithCommas(data.balance)}
             </p>
           </div>
