@@ -276,7 +276,12 @@ function Home() {
           <img
             src="/image/shape.png"
             alt=""
-            className="absolute z-10 left-0 h-[85vw] w-[85vw] "
+            className="absolute z-1 fixed left-0 h-[30vh] w-[100vw] "
+          />
+          <img
+            src="/image/shape.png"
+            alt=""
+            className="absolute z-3 fixed top-0 left-0 h-[40vh] w-[100vw] "
           />
           <div id="rippleButton"
             className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[40vh] h-[40vh] max-width-[85vw] ${
