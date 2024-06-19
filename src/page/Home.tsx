@@ -172,12 +172,12 @@ function Home() {
   };
 
   const handleTap = (event: React.MouseEvent<HTMLDivElement>) => {
-    // if (!userAddress.wallet_address) {
+    if (!userAddress.wallet_address) {
     //  toast.error("Please connect your wallet first");
-    //  const audio = new Audio(errorSond);
-    //  audio.play();
+     const audio = new Audio(errorSond);
+     audio.play();
     //  return;
-    // }
+    }
 
     if (userAddress.energy < 1) {
       toast.info("Please try after 24hr.", {autoClose: 1000});
