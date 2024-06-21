@@ -1,8 +1,4 @@
-export default function CountDate({
-  level,
-}: {
-  level: number
-}) {
+export default function CountDate({level}: {level: number}) {
   return (
     <div className="CountDate flex justify-center gap-6 max-sm:gap-4 items-center w-full h-[8vh]">
       <div className={`flex flex-col item-center justify-center ${level == 0 ? "scale-[120%] max-sm:scale-[115%]" : ""} ${level >= 0 ? "opacity-100" : "opacity-40"}`}>

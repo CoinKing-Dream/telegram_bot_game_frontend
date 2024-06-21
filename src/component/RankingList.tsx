@@ -7,7 +7,7 @@ import { walletProfile } from "../types/wallet.tsx";
 
 // import io from "socket.io-client";
 
-export default function RankingList({selectedOption}: any) {
+export default function RankingList({selectedOption}: {selectedOption: any}) {
   
   const user = useSelector((state: RootState) => state.wallet.user);
   const [ranking, setRanking] = useState<Number>(1);
@@ -54,13 +54,13 @@ export default function RankingList({selectedOption}: any) {
     return new Intl.NumberFormat(locale).format(number) ;
   }
   return (
-    <div className="ms:w-full h-[55vh] mx-3">
+    <div className="ms:w-full h-[75vh] mx-3">
         <div className="flex px-1 py-3 max-sm:py-1 text-white text-2xl max-sm:text-base font-bold justify-center align-middle overflow-y-hidden">
           <div className="text-start w-[10%] flex justify-center">Rank</div>
           <div className="text-start w-[75%] flex justify-center">User</div>
           <div className="text-start w-[15%] flex justify-center">RFP</div>
         </div>
-      <div className="max-h-[52vh] max-sm:max-h-[65vh] overflow-auto">
+      <div className="h-[55vh] overflow-auto">
         {users.map((data, index) => (
           
           <div

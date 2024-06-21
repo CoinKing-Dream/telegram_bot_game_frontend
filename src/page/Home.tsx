@@ -5,8 +5,8 @@ import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
 import { insertWallet, updateUserInfo, getCurrentTime, updateUserInforDB } from "../store/reducers/wallet";
-// import { TonConnectButton, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
-import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
+// import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -27,12 +27,13 @@ function Home() {
   const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  // const address = useTonAddress(true);
-  const address = "UQCaAcIsJkFnCME9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0Z#";
+  const address = useTonAddress(true);
+  // const address = "4QCaAcI5J5Fn5ME97u9P4I61OBnnz5JREbm-YJ5t3Zx9c743";
   const wallet = useTonWallet();
   console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
   useEffect(() => {
+
     if (address != null && userAddress.wallet_address != address ){
       dispatch(insertWallet(address));
     } 
@@ -276,7 +277,7 @@ function Home() {
             className="absolute z-3 fixed top-0 left-0 h-[40vh] w-[100vw] "
           />
           <div id="rippleButton"
-            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[40vh] h-[40vh] max-width-[85px] max-height-[85px] ${
+            className={`relative bg-[url('/image/main.png')] drop-shadow bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[40vh] h-[40vh] max-w-[85vw] max-h-[85vw] ${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
@@ -293,7 +294,7 @@ function Home() {
               <img
                 src="/image/icon/lightning.svg"
                 alt="lightning"
-                className={`w-[5vh] h-[5vh] inline ${imgStatus? "scale-[115%]":"scale-[100%]"}`}
+                className={`w-[5vh] h-[5vh] inline ${imgStatus? "scale-[115%]":"scale-[100%]"} `}
               />
             </span>
             <span className={`text-[4vh] ${(userAddress.energy>10)?"text-white text-bold":"text-[#FF0000] text-bold"} red`}>{userAddress.energy}</span> 

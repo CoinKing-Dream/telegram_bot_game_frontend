@@ -8,7 +8,7 @@ export default function Ranking() {
   console.log(selectedOption);
   
   return (
-    <div className="Ranking max-w-full mx-auto text-white h-[75vh] max-sm:h-[85vh] max-sm:mt-1 mt-6">
+    <div className="Ranking max-w-full mx-auto text-white h-[75vh] max-sm:mt-1 mt-6">
       <div className="flex justify-center items-center">
         <h1 className="z-1 text-4xl text-bold max-sm:text-2xl mb-3 max-sm:mb-1 max-w-[500px] mx-auto text-start text-white flex justify-center font-bold">Ranking</h1>
         <div className="w-12 max-sm:w-10 text-center  flex justify-center items-center z-10">
