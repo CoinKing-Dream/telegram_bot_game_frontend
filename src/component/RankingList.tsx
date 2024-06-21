@@ -16,8 +16,8 @@ export default function RankingList({selectedOption}: any) {
 
   
   useEffect(() => {
-    if (selectedOption == "Recently"){
-      dispatch(getAllWallets());
+    dispatch(getAllWallets());
+    if (selectedOption == "Recently"){      
       setUsers(tempUsers.sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
     } else if (selectedOption == "Weekly") {
       setUsers(tempUsers.sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      

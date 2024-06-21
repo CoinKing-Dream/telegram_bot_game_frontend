@@ -7,7 +7,6 @@ export default function Ranking() {
   const [selectedOption] = useState<string>("Recently");//setSelectedOption
   console.log(selectedOption);
   
-
   return (
     <div className="Ranking max-w-full mx-auto text-white h-[75vh] max-sm:h-[85vh] max-sm:mt-1 mt-6">
       <div className="flex justify-center items-center">
