@@ -1,13 +1,12 @@
 export interface walletProfile {
     wallet_address: string;
     balance: number;
-    weekBalance: number;
-    monthBalance: number;
     energy: number;
     recoveryDate: string;
     createdDate: string;
     latestDate: string;
     weeklyIncRFP: number;
+    monthlyIncRFP: number
 }
 export interface walletStateProps {
     user: walletProfile;

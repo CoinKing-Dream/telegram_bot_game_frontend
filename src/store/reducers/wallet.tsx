@@ -15,13 +15,12 @@ const initialState: walletStateProps = {
   user: {
       wallet_address: '',
       balance: 0,
-      weekBalance: 0,
-      monthBalance: 0,
       energy: 500,
       recoveryDate: '',
       createdDate: '',
       latestDate: '',
-      weeklyIncRFP: 0
+      weeklyIncRFP: 0,
+      monthlyIncRFP: 0
   },
   users: [],
   currentDate: '',

@@ -11,7 +11,7 @@ export default function Footer() {
   }, [location]);
   return (
     <div
-      className="grid grid-cols-2 gap-10 justify-center items-center"
+      className="absolute bottom-[5vh] left-1/2 transform -translate-x-1/2 grid grid-cols-2 gap-[20vw] justify-center items-center"
     >
       <Link
         to="/ranking"
@@ -22,11 +22,11 @@ export default function Footer() {
         }
         className={`hover:scale-y-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
           path === "/ranking"
-            ? "-translate-y-2 scale-y-[125%] max-sm:scale-y-[110%] opacity-100"
+            ? "-translate-y-2 scale-[125%] max-sm:scale-y-[110%] opacity-100"
             : "opacity-50 text-white"
         }`}
       >
-        <img src="/image/ranking.png" alt="ranking" className="w-12 h-12 max-sm:w-8 max-sm:h-8" />
+        <img src="/image/ranking.png" alt="ranking" className="w-[8vh] h-[8vh]" />
         <p className="text-sm max-sm:text-sm text-white">RANKING</p>
       </Link>
       <Link
@@ -37,10 +37,10 @@ export default function Footer() {
           }          
         }
         className={`  hover:scale-y-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
-          path === "/" ? "-translate-y-2 scale-y-[125%] max-sm:scale-y-[110%] opacity-100" : "opacity-50 text-white"
+          path === "/" ? "-translate-y-2 scale-[125%] max-sm:scale-y-[110%] opacity-100" : "opacity-50 text-white"
         }`}
       >
-        <img src="/image/mining.png" alt="play" className="w-12 h-12 max-sm:w-8 max-sm:h-8" />
+        <img src="/image/mining.png" alt="play" className="w-[8vh] h-[8vh]" />
         <p className="text-sm max-sm:text-sm text-white">MINT</p>
       </Link>
       

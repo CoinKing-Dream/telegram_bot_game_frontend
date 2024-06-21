@@ -14,19 +14,25 @@ export default function RankingList({selectedOption}: any) {
   const tempUsers = useSelector((state: RootState) => state.wallet.users);
   const [users, setUsers] = useState<walletProfile []>([]);
 
+  console.log("LSR", selectedOption);
+  console.log("LSR", tempUsers);
+  console.log("LSR", users);
   
   useEffect(() => {
     dispatch(getAllWallets());
     if (selectedOption == "Recently"){      
-      setUsers(tempUsers.sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
-    } else if (selectedOption == "Weekly") {
-      setUsers(tempUsers.sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
+    // if (selectedOption ){      
+      setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
+    } 
+    else if (selectedOption == "Weekly") {
+      setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
     } else if (selectedOption == "Monthly") {
-      setUsers(tempUsers.sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));      
+      setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));      
     }
+
     setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
    
-  }, [user, users]);
+  }, [user, tempUsers]);
   // const [rankings, setRankings] = useState([]);
 
   // useEffect(() => {

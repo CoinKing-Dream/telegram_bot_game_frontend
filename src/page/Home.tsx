@@ -70,18 +70,8 @@ function Home() {
       const currentUserAddress = userAddressRef.current;
       if (!currentUserAddress.wallet_address) return;
 
-      const tempUser = {
-            wallet_address: currentUserAddress.wallet_address,
-            balance: currentUserAddress.balance,
-            weekBalance: currentUserAddress.weekBalance,
-            monthBalance: currentUserAddress.monthBalance,
-            energy: currentUserAddress.energy,
-            recoveryDate: currentUserAddress.recoveryDate,
-            createdDate: currentUserAddress.createdDate,
-            latestDate: currentUserAddress.latestDate,
-            weeklyIncRFP: currentUserAddress.weeklyIncRFP
-      }
-      dispatch(getCurrentTime(tempUser));
+      //Update user DB and Get current time of backend
+      dispatch(getCurrentTime(currentUserAddress));
       
       if (!currentUserAddress.energy) {
         if (currentUserAddress.recoveryDate != '') {
@@ -90,9 +80,9 @@ function Home() {
           let diff = date_1.getTime() - date_2.getTime();
           
           if (diff > 1000 * 60 * 60 * 24)
-            dispatch(updateUserInfo(Object.assign({}, tempUser, {energy: 500, recoveryDate: ''})));
+            dispatch(updateUserInfo(Object.assign({}, currentUserAddress, {energy: 500, recoveryDate: ''})));
         } else {
-          dispatch(updateUserInfo(Object.assign({}, tempUser, {recoveryDate: currentDate})));
+          dispatch(updateUserInfo(Object.assign({}, currentUserAddress, {recoveryDate: currentDate})));
         }
       }
 
@@ -220,17 +210,10 @@ function Home() {
       setTempTab(0);
     }
 
-    const updateUser = {
-      wallet_address: userAddress.wallet_address, 
+    const updateUser = Object.assign({}, userAddress, {
       balance: userAddress.balance + score, 
-      weekBalance: userAddress.weekBalance + score, 
-      monthBalance: userAddress.monthBalance + score, 
       energy: userAddress.energy - 1, 
-      recoveryDate: userAddress.recoveryDate, 
-      createdDate: userAddress.createdDate,
-      latestDate: userAddress.latestDate,
-      weeklyIncRFP: userAddress.weeklyIncRFP
-    }
+    });
     
     dispatch(updateUserInfo(updateUser));
 
@@ -262,22 +245,22 @@ function Home() {
   // }
 
   return (
-    <div className="bg-blend-exclusion mt-10 max-md:mt-5 max-sm:mt-2">
+    <div className="bg-blend-exclusion  mt-[4vh] max-md:mt-[3vh] max-sm:mt-[2vh] h-[75vh] max-sm:h-[85vh] ">
       <ToastContainer />
-      <div className="my-3 max-md:my-2 max-sm:mt-1 w-full flex justify-center">
-        <TonConnectButton />
+      <div className="max-md:my-2 max-sm:mt-1 w-full flex justify-center">
+        <TonConnectButton/>
       </div>
       <div className="relative flex flex-col items-center justify-center">
         <CountDate level={level} />
       </div>
       <div
         id="mainWindow"
-        className={`relative flex flex-col items-center justify-center h-[60vh] max-md:h-[65vh] max-sm:h-[65vh] mb-9 max-md:mb-7 max-sm:mb-4`}
+        className={`relative flex flex-col items-center h-[60vh] max-md:h-[70vh] max-sm:h-[80vh] max-md:mb-7 max-sm:mb-4`}
       >
        
-        <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-2xl font-bold text-[yellow] max-sm:text-xl">Force Points</h3>
-          <h1 className="text-3xl text-white max-md:text-4xl max-sm:text-2xl">
+        <div className="flex flex-col justify-center items-center mb-[2vh]">
+          <h3 className="font-bold text-[yellow] text-[3vh]">Force Points</h3>
+          <h1 className="text-white text-[4vh]">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
         </div>
@@ -293,7 +276,7 @@ function Home() {
             className="absolute z-3 fixed top-0 left-0 h-[40vh] w-[100vw] "
           />
           <div id="rippleButton"
-            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[40vh] h-[40vh] max-width-[85vw] ${
+            className={`relative bg-[url('/image/main.png')] bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[40vh] h-[40vh] max-width-[85px] max-height-[85px] ${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
@@ -304,16 +287,17 @@ function Home() {
             onClick={handleTap}
           />
         </div>
-        <div className="flex flex-col justify-center items-center mt-3">
-          <h3 className="text-2xl mb-2 text-white max-sm:text-xl max-sm:mb-1">
+        <div className="flex flex-col justify-center items-center my-[1vh]">
+          <h3>
             <span className="text-3xl max-sm:text-2xl">
               <img
                 src="/image/icon/lightning.svg"
                 alt="lightning"
-                className={`w-8 h-8 inline ${imgStatus? "scale-[115%]":"scale-[100%]"}`}
+                className={`w-[5vh] h-[5vh] inline ${imgStatus? "scale-[115%]":"scale-[100%]"}`}
               />
             </span>
-            <span className={`text-3xl ${(userAddress.energy>10)?"text-white text-bold":"text-[#FF0000] text-bold"} red max-sm:text-2xl`}>{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
+            <span className={`text-[4vh] ${(userAddress.energy>10)?"text-white text-bold":"text-[#FF0000] text-bold"} red`}>{userAddress.energy}</span> 
+            <span className="text-[3vh]">{`/${variable_Comp.Daily_Tap_Limit}`}</span>
           </h3>
           
         </div>
