@@ -10,7 +10,6 @@ import { dispatch } from '../index';
 import { walletProfile, walletStateProps } from '../../types/wallet';
 
 // ----------------------------------------------------------------------
-
 const initialState: walletStateProps = {
   error: null,
   user: {
@@ -20,7 +19,9 @@ const initialState: walletStateProps = {
       monthBalance: 0,
       energy: 500,
       recoveryDate: '',
-      createdDate: ''
+      createdDate: '',
+      latestDate: '',
+      weeklyIncRFP: 0
   },
   users: [],
   currentDate: '',
@@ -139,3 +140,4 @@ export function getCurrentTime(tempUser: walletProfile) {
     }
   }
 }
+

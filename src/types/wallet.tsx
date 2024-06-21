@@ -6,6 +6,8 @@ export interface walletProfile {
     energy: number;
     recoveryDate: string;
     createdDate: string;
+    latestDate: string;
+    weeklyIncRFP: number;
 }
 export interface walletStateProps {
     user: walletProfile;

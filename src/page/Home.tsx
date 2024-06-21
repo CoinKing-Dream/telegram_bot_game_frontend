@@ -76,13 +76,15 @@ function Home() {
             monthBalance: currentUserAddress.monthBalance,
             energy: currentUserAddress.energy,
             recoveryDate: currentUserAddress.recoveryDate,
-            createdDate: currentUserAddress.createdDate
+            createdDate: currentUserAddress.createdDate,
+            latestDate: currentUserAddress.latestDate,
+            weeklyIncRFP: currentUserAddress.weeklyIncRFP
       }
       dispatch(getCurrentTime(tempUser));
       
       if (!currentUserAddress.energy) {
         if (currentUserAddress.recoveryDate != '') {
-          let date_1 = new Date(Date.parse(currentUserAddress.createdDate));
+          let date_1 = new Date(Date.parse(currentDate));
           let date_2 = new Date(Date.parse(currentUserAddress.recoveryDate));
           let diff = date_1.getTime() - date_2.getTime();
           
@@ -112,8 +114,10 @@ function Home() {
         } else if (ageDifference >= 4 * secondInday ) {
           setLevel(4);
         }
+
       }
 
+      
       // Update weekly and monthly balance of current user.
       if (currentUserAddress) {
         // const now = new Date(Date.parse(currentDate));
@@ -223,6 +227,8 @@ function Home() {
       energy: userAddress.energy - 1, 
       recoveryDate: userAddress.recoveryDate, 
       createdDate: userAddress.createdDate,
+      latestDate: userAddress.latestDate,
+      weeklyIncRFP: userAddress.weeklyIncRFP
     }
     
     dispatch(updateUserInfo(updateUser));

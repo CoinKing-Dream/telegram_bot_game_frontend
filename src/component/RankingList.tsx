@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import {RootState} from "../store";
 import { dispatch } from "../store";
 import { getAllWallets } from "../store/reducers/wallet.tsx";
+import { walletProfile } from "../types/wallet.tsx";
 
 // import io from "socket.io-client";
 
@@ -10,19 +11,20 @@ export default function RankingList({selectedOption}: any) {
   
   const user = useSelector((state: RootState) => state.wallet.user);
   const [ranking, setRanking] = useState<Number>(1);
-  const users = useSelector((state: RootState) => state.wallet.users);
+  const tempUsers = useSelector((state: RootState) => state.wallet.users);
+  const [users, setUsers] = useState<walletProfile []>([]);
+
   
   useEffect(() => {
     if (selectedOption == "Recently"){
       dispatch(getAllWallets());
-      if (user.wallet_address){
-        setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
-      }
+      setUsers(tempUsers.sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
     } else if (selectedOption == "Weekly") {
-
-    } else {
-      
+      setUsers(tempUsers.sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
+    } else if (selectedOption == "Monthly") {
+      setUsers(tempUsers.sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));      
     }
+    setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
    
   }, [user, users]);
   // const [rankings, setRankings] = useState([]);
