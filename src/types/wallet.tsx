@@ -7,6 +7,7 @@ export interface walletProfile {
     latestDate: string;
     weeklyIncRFP: number;
     monthlyIncRFP: number;
+    loading?: boolean; // Optional property
 }
 export interface walletStateProps {
     user: walletProfile;
