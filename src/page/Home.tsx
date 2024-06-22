@@ -195,7 +195,7 @@ function Home() {
      toast.error("Please connect your wallet first");
      const audio = new Audio(errorSond);
      audio.play();
-     return;
+    //  return;
     }
 
     if (userAddress.energy < 1) {
