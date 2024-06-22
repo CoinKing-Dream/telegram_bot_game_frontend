@@ -5,7 +5,7 @@ import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
 import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB } from "../store/reducers/wallet";
-import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react"; //useTonAddress
+import { TonConnectButton,  } from "@tonconnect/ui-react"; //useTonAddress       useTonWallet
 // import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
