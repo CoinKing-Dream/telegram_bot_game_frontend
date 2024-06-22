@@ -14,9 +14,9 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
   const tempUsers = useSelector((state: RootState) => state.wallet.users);
   const [users, setUsers] = useState<walletProfile []>([]);
 
-  console.log("LSR", selectedOption);
-  console.log("LSR", tempUsers);
-  console.log("LSR", users);
+  // console.log("LSR", selectedOption);
+  // console.log("LSR", tempUsers);
+  // console.log("LSR", users);
   
   useEffect(() => {
     dispatch(getAllWallets());
@@ -25,9 +25,9 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
       setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
     } 
     else if (selectedOption == "Weekly") {
-      setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
+      setUsers(tempUsers.slice(0, 10).sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
     } else if (selectedOption == "Monthly") {
-      setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));      
+      setUsers(tempUsers.slice(0, 50).sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));      
     }
 
     setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
@@ -55,10 +55,10 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
   }
   return (
     <div className="ms:w-full h-[75vh] mx-3">
-        <div className="flex px-1 py-3 max-sm:py-1 text-white text-2xl max-sm:text-base font-bold justify-center align-middle overflow-y-hidden">
-          <div className="text-start w-[10%] flex justify-center">Rank</div>
-          <div className="text-start w-[75%] flex justify-center">User</div>
-          <div className="text-start w-[15%] flex justify-center">RFP</div>
+        <div className="ring-2 rounded-full flex px-10 max-md:px-7 max-sm:px-1 py-3 max-sm:py-1 text-white text-2xl max-md:text-xl max-md:text-base font-bold justify-between align-middle overflow-y-hidden">
+          <div className="text-start min-w-[80px] flex justify-center">🌟 Rank</div>
+          <div className="text-start flex justify-center">🙂 User</div>
+          <div className="text-start min-w-[70px] flex justify-center">🥯 RFP</div>
         </div>
       <div className="h-[55vh] overflow-auto">
         {users.map((data, index) => (
@@ -86,7 +86,7 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
             </div>
 
             <p className="text-xl text-bold text-white w-[10%] flex items-center justify-center ml-2 max-sm:text-base max-sm:ml-0">
-              {formatNumberWithCommas(data.balance)}
+              {(selectedOption == "Recently")?formatNumberWithCommas(data.balance):(selectedOption == "Weekly"?formatNumberWithCommas(data.weeklyIncRFP):formatNumberWithCommas(data.monthlyIncRFP))}
             </p>
           </div>
         ))}
@@ -106,7 +106,7 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
         </div>
 
         <p className="text-2xl max-sm:text-base text-bold w-[10%] text-white flex items-center justify-center">
-          {formatNumberWithCommas(user.balance)}
+        {(selectedOption == "Recently")?formatNumberWithCommas(user.balance):(selectedOption == "Weekly"?formatNumberWithCommas(user.weeklyIncRFP):formatNumberWithCommas(user.monthlyIncRFP))}
         </p>
       </div>
       :''

@@ -12,5 +12,6 @@ export interface walletStateProps {
     user: walletProfile;
     users: walletProfile[];
     currentDate: string;
+    loading: boolean;
     error: object | string | null;
 }

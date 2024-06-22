@@ -89,7 +89,7 @@ export function updateUserInfo(tempUser: walletProfile)
 }
 
 //Update data of DB after 200ms when it is clicked for "Shoot" button.
-export function updateUserInforDB(tempUser: walletProfile) {
+export function updateUserInfoDB(tempUser: walletProfile) {
   return async () => {
     await axios.post("/wallet/update", tempUser);
   }
@@ -121,18 +121,17 @@ export function getAllWallets() {
 
 // Get and update for date of date, time
 export function getCurrentTime(tempUser: walletProfile) {
-  console.log(tempUser);
+  console.log("current", tempUser);
   
   return async () => {
     try {
       const response = await axios.post("/wallet/current_time", {wallet_address: tempUser.wallet_address});
 
       dispatch(wallet.actions.updateCurrentDate(response.data.currentDate));
-      dispatch(wallet.actions.updateUser(
-        Object.assign({}, tempUser, {
+      dispatch(wallet.actions.updateUser({...tempUser,
           createdDate: response.data.createdDate,
           recoveryDate: response.data.recoveryDate
-        })
+       }
       ));
     } catch (error) {
       wallet.actions.hasError(error);

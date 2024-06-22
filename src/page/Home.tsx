@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
-import { insertWallet, updateUserInfo, getCurrentTime, updateUserInforDB } from "../store/reducers/wallet";
-import { TonConnectButton, useTonWallet, useTonAddress } from "@tonconnect/ui-react";
+import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB } from "../store/reducers/wallet";
+import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react"; //useTonAddress
 // import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
@@ -21,27 +21,32 @@ function Home() {
   const [level, setLevel] = useState<number>(0);
   const [randomTab, setRandomTab] = useState<number>(Math.floor(Math.random() * 10) + 1)
   const [score, setScore] = useState<number>(variable_Comp.Earnings_Per_Tap);
+  const [time, setTime] = useState(0);
 
   const userAddress = useSelector((state: RootState) => state.wallet.user);
   const currentDate = useSelector((state: RootState) => state.wallet.currentDate);
-  const userAddressRef = useRef(userAddress);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const address = useTonAddress(true);
-  // const address = "4QCaAcI5J5Fn5ME97u9P4I61OBnnz5JREbm-YJ5t3Zx9c743";
+  // const address = useTonAddress(true);
+  const address = "UQCaovMwDcqf432QSpcweqr1vPzBDkCh5GMOuK2343LZxIlc79s5LoaRv-";
   const wallet = useTonWallet();
-  console.log("--------->", wallet?.device, address);
+  // console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
   useEffect(() => {
-
     if (address != null && userAddress.wallet_address != address ){
       dispatch(insertWallet(address));
     } 
   }, [address]);
 
-  
+  // Save all data when componenet is unmounted.
   useEffect(() => {
+    return () => {
+      dispatch(updateUserInfo({...userAddress, latestDate: currentDate}))
+    }
+  }, []);
 
+  // Increase level if condition is fit
+  useEffect(() => {
     switch (level) {
       case 0:
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_1);
@@ -59,70 +64,86 @@ function Home() {
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_5);
         break;
     }
-   
   }, [level])
 
   useEffect(() => {
-    userAddressRef.current = userAddress;
-  }, [userAddress]);
- 
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      const currentUserAddress = userAddressRef.current;
-      if (!currentUserAddress.wallet_address) return;
-
-      //Update user DB and Get current time of backend
-      dispatch(getCurrentTime(currentUserAddress));
-      
-      if (!currentUserAddress.energy) {
-        if (currentUserAddress.recoveryDate != '') {
-          let date_1 = new Date(Date.parse(currentDate));
-          let date_2 = new Date(Date.parse(currentUserAddress.recoveryDate));
-          let diff = date_1.getTime() - date_2.getTime();
-          
-          if (diff > 1000 * 60 * 60 * 24)
-            dispatch(updateUserInfo(Object.assign({}, currentUserAddress, {energy: 500, recoveryDate: ''})));
-        } else {
-          dispatch(updateUserInfo(Object.assign({}, currentUserAddress, {recoveryDate: currentDate})));
-        }
-      }
-
-      // Update level of current user
-      if (currentUserAddress) {
-        let date_1 = new Date(Date.parse(currentUserAddress.createdDate));
-
-        const ageDifference = Math.floor(Math.abs(date_1.getTime() - new Date(Date.parse(currentDate)).getTime()) / 1000 );
-
-        const secondInday = 60 * 60 * 24;
-
-        if (ageDifference < 1 * secondInday) {
-          setLevel(0);
-        } else if (ageDifference >= 1 * secondInday && ageDifference < 2 * secondInday ) {
-          setLevel(1);
-        } else if (ageDifference >= 2 * secondInday  && ageDifference < 3 * secondInday ) {
-          setLevel(2);
-        } else if (ageDifference >= 3 * secondInday  && ageDifference < 4 * secondInday ) {
-          setLevel(3);
-        } else if (ageDifference >= 4 * secondInday ) {
-          setLevel(4);
-        }
-
-      }
-
-      
-      // Update weekly and monthly balance of current user.
-      if (currentUserAddress) {
-        // const now = new Date(Date.parse(currentDate));
-        
-        // dispatch(updateUserInfo(Object.assign({}, tempUser, {weekBalance: 0})));
-
-        // dispatch(updateUserInfo(Object.assign({}, tempUser, {monthBalance: 0})));
-      }
-
-    }, 800);
-  
+    const intervalID = setInterval(countTimeFunc, 1000);
     return () => clearInterval(intervalID);
-  }, []); 
+  }, [address])
+
+  function countTimeFunc() {
+    setTime(time => time + 1);
+  }
+
+  useEffect(() => {
+    if (!userAddress.wallet_address) return;
+
+    //Update user DB and Get current time of backend
+    dispatch(getCurrentTime(userAddress));
+    dispatch(updateUserInfo({...userAddress, recoveryDate: "currentDate"}));
+    
+    console.log("tempTab", userAddress.balance);
+    // alert(userAddress.balance);
+    // console.log("tempTab", userAddress.wallet_address);
+    // console.log("recoveryDate", (!userAddress.recoveryDate));
+
+    if (!userAddress.energy) {
+      if (userAddress.recoveryDate) {
+        let date_1 = new Date(Date.parse(currentDate));
+        let date_2 = new Date(Date.parse(userAddress.recoveryDate));
+        // let diff = date_1.getTime() - date_2.getTime();
+        let diff = (date_1.getTime() - date_2.getTime()) / 1000;
+
+        // console.log("recoveryDate", userAddress.recoveryDate);
+        // if (diff > 1000 * 60 * 60 * 24)
+        if (diff > 1 * 60){
+          dispatch(updateUserInfo(Object.assign({}, userAddress, {energy: 500, recoveryDate: ''})));
+          dispatch(updateUserInfoDB(Object.assign({}, userAddress, {energy: 500, recoveryDate: ''})));
+        }
+      } else {
+        console.log("currentDate", (currentDate));
+        dispatch(updateUserInfo({...userAddress, recoveryDate: currentDate}));
+        dispatch(updateUserInfoDB({...userAddress, recoveryDate: currentDate}));
+
+        console.log("currentDate", (userAddress));
+      }
+    }
+
+    // Update level of current user
+    if (userAddress) {
+      let date_1 = new Date(Date.parse(userAddress.createdDate));
+      const ageDifference = Math.floor(Math.abs(date_1.getTime() - new Date(Date.parse(currentDate)).getTime()) / 1000 );
+      console.log("ageDiff", ageDifference);
+      console.log("date_1", date_1);
+      console.log("currentDate", currentDate);
+      
+      const secondInday = 60 ;//* 60 * 24;
+      
+      if (ageDifference < 1 * secondInday) {
+        setLevel(0);
+      } else if (ageDifference >= 1 * secondInday && ageDifference < 2 * secondInday ) {
+        setLevel(1);
+      } else if (ageDifference >= 2 * secondInday  && ageDifference < 3 * secondInday ) {
+        setLevel(2);
+      } else if (ageDifference >= 3 * secondInday  && ageDifference < 4 * secondInday ) {
+        setLevel(3);
+      } else if (ageDifference >= 4 * secondInday ) {
+        setLevel(4);
+      }
+    }
+
+    
+    // Update weekly and monthly balance of current user.
+    if (userAddress) {
+      // const now = new Date(Date.parse(currentDate));
+      
+      // dispatch(updateUserInfo(Object.assign({}, tempUser, {weekBalance: 0})));
+
+      // dispatch(updateUserInfo(Object.assign({}, tempUser, {monthBalance: 0})));
+    }
+
+  }, [time])
+  
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number);
@@ -179,8 +200,13 @@ function Home() {
 
     if (userAddress.energy < 1) {
       toast.info("Please try after 24hr.", {autoClose: 1000});
-      return
+      const audio = new Audio(errorSond);
+      audio.play();
+      return;
     };
+
+    const audio = new Audio(coinSound);
+    audio.play();
    
     switch (level) {
       case 0:
@@ -211,20 +237,17 @@ function Home() {
       setTempTab(0);
     }
 
-    const updateUser = Object.assign({}, userAddress, {
+    const updateUser = {...userAddress,
       balance: userAddress.balance + score, 
       energy: userAddress.energy - 1, 
-    });
+    };
     
     dispatch(updateUserInfo(updateUser));
 
     setTimeout(() => {
-      dispatch(updateUserInforDB(updateUser));
+      dispatch(updateUserInfoDB(updateUser));
       console.log("200ms", updateUser);
     }, 200);
-
-    const audio = new Audio(coinSound);
-    audio.play();
 
     handleClick(event);
   };

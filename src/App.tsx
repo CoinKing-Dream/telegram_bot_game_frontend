@@ -7,10 +7,18 @@ import Footer from "./component/Footer";
 import Layout from "./Layout";
 import { Provider as ReduxProvider } from "react-redux";
 import {store} from "./store";
+import { useEffect, useState } from "react";
 function App() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
   
   return (
     <Router>
+      {loading ? '' :
       <div className="App w-full h-[100vh]">
         <ReduxProvider store={store}>
           <Routes>
@@ -23,6 +31,7 @@ function App() {
           <Footer />
         </ReduxProvider>
       </div>
+      }
     </Router>
   );
 }
