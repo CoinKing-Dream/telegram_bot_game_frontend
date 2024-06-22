@@ -20,7 +20,8 @@ const initialState: walletStateProps = {
       createdDate: '',
       latestDate: '',
       weeklyIncRFP: 0,
-      monthlyIncRFP: 0
+      monthlyIncRFP: 0,
+      loading: false,
   },
   users: [],
   currentDate: '',
