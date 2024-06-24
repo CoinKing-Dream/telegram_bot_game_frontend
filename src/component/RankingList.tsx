@@ -34,7 +34,7 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
 
   useEffect(() => {
     let updatedUsers = tempUsers.filter((_user: any) => _user.wallet_address !== user.wallet_address);
-    updatedUsers.push(user);
+    if (user.wallet_address) updatedUsers.push(user);
 
     if (selectedOption == "Recently") {      
       setDisplayUsers(updatedUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));

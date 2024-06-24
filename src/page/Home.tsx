@@ -6,7 +6,7 @@ import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
 import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB, updateRecoveryDate } from "../store/reducers/wallet";
 // import { TonConnectButton,  } from "@tonconnect/ui-react"; //useTonAddress       useTonWallet
-import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
+import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -29,17 +29,16 @@ function Home() {
   const bodyRef = useRef<HTMLDivElement>(null);
   
 
-  // const address = useTonAddress(true);
-  const address = "UQCaAcIsJkF2345234s9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0ZH";
-  // const wallet = useTonWallet();
-  // console.log("--------->", wallet?.device, address);
+  const address = useTonAddress(true);
+  // const address = "UQCaAcIsJkF2345234s9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0ZH";
+  const wallet = useTonWallet();
+  console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
 
   // when wallet is connected....
   
   useEffect(() => {
     if (address != null && userAddress.wallet_address != address ){
-      // alert(address);
       dispatch(insertWallet(address));
     } 
 
@@ -72,14 +71,11 @@ function Home() {
   }, [level])
   
   useEffect(() => {
-    console.log("time");
     if (!userAddress.wallet_address) return;
 
     //Get current time of backend
     dispatch(getCurrentTime());
     
-    console.log("tempTab", userAddress);
-
     if (!userAddress.energy) {
 
       if (recoveryDate) {
@@ -234,13 +230,6 @@ function Home() {
   const handleMouseLeave = () => {
     setImgStatus(false);
   };
-  // console.log("imgStatus", imgStatus);
-
-  // const updateStatus = () => {
-  //   // const nowDate = new Date().toISOString("YYYY-MM-DD")
-  //   console.log(new Date().getDate());
-    
-  // }
 
   return (
     <div className="bg-blend-exclusion  mt-[4vh] max-md:mt-[3vh] max-sm:mt-[2vh] h-[75vh] max-sm:h-[85vh] ">
