@@ -6,6 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import React from "react";
+import buttonSound from "../assets/sound/button.wav";
 
 const options = [
   'Recently',
@@ -21,6 +22,9 @@ export default function Ranking() {
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const buttonAudio = new Audio(buttonSound);
+    buttonAudio.play();
+    
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (event: React.MouseEvent<HTMLLIElement>) => {

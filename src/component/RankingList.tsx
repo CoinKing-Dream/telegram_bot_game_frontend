@@ -10,29 +10,37 @@ import { walletProfile } from "../types/wallet.tsx";
 export default function RankingList({selectedOption}: {selectedOption: any}) {
   
   const user = useSelector((state: RootState) => state.wallet.user);
-  const [ranking, setRanking] = useState<Number>(1);
+  const [ranking, setRanking] = useState<Number>(0);
   const tempUsers = useSelector((state: RootState) => state.wallet.users);
-  const [users, setUsers] = useState<walletProfile []>([]);
-
-  // console.log("LSR", selectedOption);
-  // console.log("LSR", tempUsers);
-  // console.log("LSR", users);
+  const [displayUsers, setDisplayUsers] = useState<walletProfile []>([]);
   
+  dispatch(getAllWallets());
   useEffect(() => {
-    dispatch(getAllWallets());
+    // dispatch(getAllWallets());
     if (selectedOption == "Recently"){      
-    // if (selectedOption ){      
-      setUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
-    } 
-    else if (selectedOption == "Weekly") {
-      setUsers(tempUsers.slice(0, 10).sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
+      setDisplayUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
+    } else if (selectedOption == "Weekly") {
+      setDisplayUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
     } else if (selectedOption == "Monthly") {
-      setUsers(tempUsers.slice(0, 50).sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));      
+      setDisplayUsers(tempUsers.slice(0, 50).sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));   
     }
-
-    setRanking(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+    
+    // alert(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1)
    
-  }, [user, tempUsers]);
+  }, [selectedOption]);
+
+  useEffect(() => {
+    
+     if(selectedOption == "Recently") {
+        setRanking(displayUsers.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+     } else if (selectedOption == "Weekly") {
+        setRanking(displayUsers.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+        setDisplayUsers(displayUsers.slice(0, 10));
+     } else if (selectedOption == "Monthly") {
+        setRanking(displayUsers.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+        setDisplayUsers(displayUsers.slice(0, 50));  
+     }
+  }, [displayUsers]);  //, user, ranking
   // const [rankings, setRankings] = useState([]);
 
   // useEffect(() => {
@@ -61,7 +69,7 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
           <div className="text-start min-w-[70px] flex justify-center">🥯 RFP</div>
         </div>
       <div className="h-[55vh] overflow-auto">
-        {users.map((data, index) => (
+        {displayUsers.map((data, index) => (
           
           <div
             key={index}
@@ -106,7 +114,7 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
         </div>
 
         <p className="text-2xl max-sm:text-base text-bold w-[10%] text-white flex items-center justify-center">
-        {(selectedOption == "Recently")?formatNumberWithCommas(user.balance):(selectedOption == "Weekly"?formatNumberWithCommas(user.weeklyIncRFP):formatNumberWithCommas(user.monthlyIncRFP))}
+        {((selectedOption == "Recently")?formatNumberWithCommas(user.balance):(selectedOption == "Weekly"?formatNumberWithCommas(user.weeklyIncRFP):formatNumberWithCommas(user.monthlyIncRFP)))}
         </p>
       </div>
       :''

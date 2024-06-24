@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
-import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB } from "../store/reducers/wallet";
+import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB, updateRecoveryDate } from "../store/reducers/wallet";
 import { TonConnectButton,  } from "@tonconnect/ui-react"; //useTonAddress       useTonWallet
 // import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
@@ -21,29 +21,41 @@ function Home() {
   const [level, setLevel] = useState<number>(0);
   const [randomTab, setRandomTab] = useState<number>(Math.floor(Math.random() * 10) + 1)
   const [score, setScore] = useState<number>(variable_Comp.Earnings_Per_Tap);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState<boolean>(true);
 
   const userAddress = useSelector((state: RootState) => state.wallet.user);
   const currentDate = useSelector((state: RootState) => state.wallet.currentDate);
+  const recoveryDate = useSelector((state: RootState) => state.wallet.recoveryDate);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   // const address = useTonAddress(true);
-  const address = "UQCaovMwDcqf432QSpcweqr1vPzBDkCh5GMOuK2343LZxIlc79s5LoaRv-";
+  const address = "123123";
   // const wallet = useTonWallet();
   // console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
+
+  // when wallet is connected....
   useEffect(() => {
     if (address != null && userAddress.wallet_address != address ){
+      // alert(address);
       dispatch(insertWallet(address));
+
+      const intervalID = setInterval(() => {
+        setTime(time => !time);
+      }, 1000);
+      return () => clearInterval(intervalID);
     } 
+
+    console.log("LSR", userAddress);
+    
   }, [address]);
 
   // Save all data when componenet is unmounted.
-  useEffect(() => {
-    return () => {
-      dispatch(updateUserInfo({...userAddress, latestDate: currentDate}))
-    }
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(updateUserInfoDB({...userAddress, latestDate: currentDate}))
+  //   }
+  // }, []);
 
   // Increase level if condition is fit
   useEffect(() => {
@@ -65,47 +77,31 @@ function Home() {
         break;
     }
   }, [level])
-
-  useEffect(() => {
-    const intervalID = setInterval(countTimeFunc, 1000);
-    return () => clearInterval(intervalID);
-  }, [address])
-
-  function countTimeFunc() {
-    setTime(time => time + 1);
-  }
-
+  
   useEffect(() => {
     if (!userAddress.wallet_address) return;
 
-    //Update user DB and Get current time of backend
-    dispatch(getCurrentTime(userAddress));
-    dispatch(updateUserInfo({...userAddress, recoveryDate: "currentDate"}));
+    //Get current time of backend
+    dispatch(getCurrentTime());
     
-    console.log("tempTab", userAddress.balance);
-    // alert(userAddress.balance);
-    // console.log("tempTab", userAddress.wallet_address);
-    // console.log("recoveryDate", (!userAddress.recoveryDate));
+    console.log("tempTab", userAddress);
 
     if (!userAddress.energy) {
+
       if (userAddress.recoveryDate) {
         let date_1 = new Date(Date.parse(currentDate));
         let date_2 = new Date(Date.parse(userAddress.recoveryDate));
-        // let diff = date_1.getTime() - date_2.getTime();
         let diff = (date_1.getTime() - date_2.getTime()) / 1000;
 
-        // console.log("recoveryDate", userAddress.recoveryDate);
-        // if (diff > 1000 * 60 * 60 * 24)
-        if (diff > 1 * 60){
-          dispatch(updateUserInfo(Object.assign({}, userAddress, {energy: 500, recoveryDate: ''})));
-          dispatch(updateUserInfoDB(Object.assign({}, userAddress, {energy: 500, recoveryDate: ''})));
+        if (diff > 60 * 60 * 24) {
+          dispatch(updateUserInfo(Object.assign({}, userAddress, {energy: 30/*Daily_Tap_Limit*/, recoveryDate: ''})));
+          dispatch(updateRecoveryDate(''));
+          dispatch(updateUserInfoDB(Object.assign({}, userAddress, {energy: 30/*Daily_Tap_Limit*/, recoveryDate: ''})));
         }
       } else {
-        console.log("currentDate", (currentDate));
-        dispatch(updateUserInfo({...userAddress, recoveryDate: currentDate}));
-        dispatch(updateUserInfoDB({...userAddress, recoveryDate: currentDate}));
-
-        console.log("currentDate", (userAddress));
+        dispatch(updateUserInfo(Object.assign({}, userAddress, {recoveryDate: currentDate})));
+        dispatch(updateRecoveryDate(currentDate));
+        dispatch(updateUserInfoDB(Object.assign({}, userAddress, {recoveryDate: currentDate})));
       }
     }
 
@@ -113,25 +109,21 @@ function Home() {
     if (userAddress) {
       let date_1 = new Date(Date.parse(userAddress.createdDate));
       const ageDifference = Math.floor(Math.abs(date_1.getTime() - new Date(Date.parse(currentDate)).getTime()) / 1000 );
-      console.log("ageDiff", ageDifference);
-      console.log("date_1", date_1);
-      console.log("currentDate", currentDate);
       
-      const secondInday = 60 ;//* 60 * 24;
+      const secondInday = 60 * 60 * 24;
       
       if (ageDifference < 1 * secondInday) {
         setLevel(0);
-      } else if (ageDifference >= 1 * secondInday && ageDifference < 2 * secondInday ) {
+      } else if (ageDifference >= 1 * secondInday && ageDifference < 4 * secondInday ) {
         setLevel(1);
-      } else if (ageDifference >= 2 * secondInday  && ageDifference < 3 * secondInday ) {
+      } else if (ageDifference >= 4 * secondInday  && ageDifference < 9 * secondInday ) {
         setLevel(2);
-      } else if (ageDifference >= 3 * secondInday  && ageDifference < 4 * secondInday ) {
+      } else if (ageDifference >= 9 * secondInday  && ageDifference < 19 * secondInday ) {
         setLevel(3);
-      } else if (ageDifference >= 4 * secondInday ) {
+      } else if (ageDifference >= 19 * secondInday ) {
         setLevel(4);
       }
     }
-
     
     // Update weekly and monthly balance of current user.
     if (userAddress) {
@@ -195,7 +187,7 @@ function Home() {
      toast.error("Please connect your wallet first");
      const audio = new Audio(errorSond);
      audio.play();
-    //  return;
+     return;
     }
 
     if (userAddress.energy < 1) {
@@ -227,11 +219,9 @@ function Home() {
     }
       
     setTempTab(tempTab + 1);
-
     if (randomTab == tempTab){
       setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_5);
     } 
-
     if (tempTab == 10) {
       setRandomTab(Math.floor(Math.random() * 10) + 1);
       setTempTab(0);
@@ -321,7 +311,7 @@ function Home() {
               />
             </span>
             <span className={`text-[4vh] ${(userAddress.energy>10)?"text-white text-bold":"text-[#FF0000] text-bold"} red`}>{userAddress.energy}</span> 
-            <span className="text-[3vh]">{`/${variable_Comp.Daily_Tap_Limit}`}</span>
+            <span className="text-[3vh] text-white">{`/${variable_Comp.Daily_Tap_Limit}`}</span>
           </h3>
           
         </div>

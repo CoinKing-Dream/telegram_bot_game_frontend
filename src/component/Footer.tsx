@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import clickSound from "../assets/sound/pong.wav";
+import clickSound from "../assets/sound/button.wav";
 
 export default function Footer() {
   const location = useLocation();

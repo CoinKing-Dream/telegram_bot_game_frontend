@@ -7,6 +7,7 @@ import Footer from "./component/Footer";
 import Layout from "./Layout";
 import { Provider as ReduxProvider } from "react-redux";
 import {store} from "./store";
+
 function App() {
   return (
     <Router>
