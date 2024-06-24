@@ -95,3 +95,12 @@
 .read-the-docs {
   color: #888;
 }
+
+@keyframes waveEffect {
+  0%, 100% {
+    box-shadow: 0 1 0 0 white;
+  }
+  50% {
+    box-shadow: 0 1 0 20px white;
+  }
+}

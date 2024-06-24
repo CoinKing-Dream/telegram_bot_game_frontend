@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import clickSound from "../assets/sound/button.wav";
 
 export default function Footer() {
   const location = useLocation();
@@ -10,26 +11,36 @@ export default function Footer() {
   }, [location]);
   return (
     <div
-      className="grid grid-cols-2 gap-10 justify-center items-center"
+      className="absolute bottom-[2vh] left-1/2 transform -translate-x-1/2 grid grid-cols-2 gap-[20vw] justify-center items-center"
     >
       <Link
         to="/ranking"
-        className={`flex flex-col items-center justify-center cursor-pointer transform origin-bottom transition ${
+        onClick={() => {
+            const audio = new Audio(clickSound);
+            audio.play();
+          }          
+        }
+        className={`hover:scale-[115%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
           path === "/ranking"
-            ? "scale-[115%] opacity-100"
+            ? "-translate-y-1 scale-[115%] opacity-100"
             : "opacity-50 text-white"
         }`}
       >
-        <img src="/image/ranking.png" alt="ranking" className="w-12 h-12" />
+        <img src="/image/ranking.png" alt="ranking" className="w-[7vh] h-[7vh]" />
         <p className="text-sm max-sm:text-sm text-white">RANKING</p>
       </Link>
       <Link
         to=""
-        className={`flex flex-col items-center justify-center cursor-pointer transform origin-bottom transition ${
-          path === "/" ? "scale-[115%] opacity-100" : "opacity-50 text-white"
+        onClick={() => {
+          const audio = new Audio(clickSound);
+          audio.play();
+          }          
+        }
+        className={`  hover:scale-[115%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
+          path === "/" ? "-translate-y-1 scale-[115%] opacity-100" : "opacity-50 text-white"
         }`}
       >
-        <img src="/image/mining.png" alt="play" className="w-12 h-12" />
+        <img src="/image/mining.png" alt="play" className="w-[7vh] h-[7vh]" />
         <p className="text-sm max-sm:text-sm text-white">MINT</p>
       </Link>
       

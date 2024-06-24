@@ -1,39 +1,57 @@
 import { useEffect, useState, useRef } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
-import { insertWallet, updateUserInfo, updateOnlyUserStore, getCurrentTime } from "../store/reducers/wallet";
-import { TonConnectButton, /*useTonWallet, useTonAddress*/ } from "@tonconnect/ui-react";
+import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB, updateRecoveryDate } from "../store/reducers/wallet";
+// import { TonConnectButton,  } from "@tonconnect/ui-react"; //useTonAddress       useTonWallet
+import { TonConnectButton, useTonAddress, useTonWallet } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import coinSound from "../assets/sound/coin_hit.wav";
+import errorSond from "../assets/sound/error.wav"
+
 // import { walletProfile } from "../types/wallet";
 // import axios from "../utils/api";
 
 function Home() {
-  
   const [tempTab, setTempTab] = useState<number>(0);
+  const [level, setLevel] = useState<number>(0);
   const [randomTab, setRandomTab] = useState<number>(Math.floor(Math.random() * 10) + 1)
-  const userAddress = useSelector((state: RootState) => state.wallet.user);
-  const bodyRef = useRef<HTMLDivElement>(null);
   const [score, setScore] = useState<number>(variable_Comp.Earnings_Per_Tap);
+  const [time, setTime] = useState<boolean>(true);
 
-  // const address = useTonAddress();
-  const address = "45436434"
-  // const wallet = useTonWallet();
-  // console.log("--------->", wallet?.device, address);
-  // dispatch(insertWallet(address));   
+  const userAddress = useSelector((state: RootState) => state.wallet.user);
+  const currentDate = useSelector((state: RootState) => state.wallet.currentDate);
+  const recoveryDate = useSelector((state: RootState) => state.wallet.recoveryDate);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  
+
+  const address = useTonAddress(true);
+  // const address = "UQCaAcIsJkF2345234s9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0ZH";
+  const wallet = useTonWallet();
+  console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
-  if (address != null && userAddress.wallet_address != address){
-    dispatch(insertWallet(address));
-  }
 
+  // when wallet is connected....
   
   useEffect(() => {
+    if (address != null && userAddress.wallet_address != address ){
+      dispatch(insertWallet(address));
+    } 
 
-    switch (userAddress.level) {
+    const intervalID = setInterval(() => {
+      setTime(time => !time);
+    }, 1000);
+    return () => clearInterval(intervalID);
+
+  }, [address]);
+  
+  // Increase level if condition is fit
+  useEffect(() => {
+    switch (level) {
       case 0:
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_1);
         break;
@@ -50,34 +68,54 @@ function Home() {
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_5);
         break;
     }
-   
-  }, [])
- 
+  }, [level])
+  
   useEffect(() => {
-    const intervalID = setInterval(() => {
-      if (userAddress && userAddress.wallet_address) {
-        dispatch(updateUserInfo(userAddress.wallet_address, userAddress.balance, userAddress.energy));
-      }
+    if (!userAddress.wallet_address) return;
 
-      if (userAddress.energy) {
-         dispatch((getCurrentTime(userAddress)));
-  
-          let date_1 = new Date(Date.parse(userAddress.createdDate));
-          let date_2 = new Date(Date.parse(userAddress.recoveryEnergyTime));
-          let diff = Math.abs(date_1.getTime() - date_2.getTime()) ;
-          
-          if (diff && diff > 1000 * 60 * 60 * 24)
-            dispatch(updateUserInfo(userAddress.wallet_address, userAddress.balance, 500));
-  
-      }
+    //Get current time of backend
+    dispatch(getCurrentTime());
+    
+    if (!userAddress.energy) {
 
-      console.log(userAddress);
+      if (recoveryDate) {
+        let date_1 = new Date(Date.parse(currentDate));
+        let date_2 = new Date(Date.parse(recoveryDate));
+        let diff = (date_1.getTime() - date_2.getTime()) / 1000;
+
+        if (diff > 60 * 60 * 24) {
+          dispatch(updateUserInfo(Object.assign({}, userAddress, {energy: variable_Comp.Daily_Tap_Limit, recoveryDate: ''})));
+          dispatch(updateRecoveryDate(''));
+          dispatch(updateUserInfoDB(Object.assign({}, userAddress, {energy: variable_Comp.Daily_Tap_Limit, recoveryDate: ''})));
+        }
+      } else {
+        dispatch(updateUserInfo(Object.assign({}, userAddress, {recoveryDate: currentDate})));
+        dispatch(updateRecoveryDate(currentDate));
+        dispatch(updateUserInfoDB(Object.assign({}, userAddress, {recoveryDate: currentDate})));
+      }
+    }
+
+    // Update level of current user
+    if (userAddress) {
+      let date_1 = new Date(Date.parse(userAddress.createdDate));
+      const ageDifference = Math.floor(Math.abs(date_1.getTime() - new Date(Date.parse(currentDate)).getTime()) / 1000 );
       
-    }, 1000);
-
-    // Cleanup function to clear the interval when the component unmounts
-    return () => clearInterval(intervalID);
-  }, [userAddress]); // Dependency array includes userAddress to rerun the effect if it changes
+      const secondInday = 60 * 60 * 24;
+      
+      if (ageDifference < 1 * secondInday) {
+        setLevel(0);
+      } else if (ageDifference >= 1 * secondInday && ageDifference < 4 * secondInday ) {
+        setLevel(1);
+      } else if (ageDifference >= 4 * secondInday  && ageDifference < 9 * secondInday ) {
+        setLevel(2);
+      } else if (ageDifference >= 9 * secondInday  && ageDifference < 19 * secondInday ) {
+        setLevel(3);
+      } else if (ageDifference >= 19 * secondInday ) {
+        setLevel(4);
+      }
+    }
+    
+  }, [time])
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number);
@@ -99,8 +137,8 @@ function Home() {
       );
 
     const newDiv = document.createElement("div");
-    newDiv.textContent = `+${score}`;
-    newDiv.style.backgroundImage = "url('image/dollar.png')";
+    newDiv.textContent = `+1`;
+    newDiv.style.backgroundImage = "url('image/dollar.svg')";
     newDiv.style.backgroundRepeat = "no-repeat";
     newDiv.style.backgroundPosition = "center";
     newDiv.style.fontSize = "35px";
@@ -114,7 +152,7 @@ function Home() {
     newDiv.style.position = "absolute";
     newDiv.style.left = `${x + 50}px`;
     newDiv.style.top = `${y}px`;
-    newDiv.style.color = score == variable_Comp.Earnings_Per_Tap ? "yellow" : "red";
+    newDiv.style.color = "yellow"; //score == variable_Comp.Earnings_Per_Tap ? "yellow" : "red";
     newDiv.className =
       "dynamic-div animate-fadeouttopright transform max-sm:text-3xl text-5xl font-bold transition not-selectable";
 
@@ -125,13 +163,24 @@ function Home() {
   };
 
   const handleTap = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   if (!address) {
-  //    toast.error("Please connect your wallet first");
-  //    return;
-  //  }
-  if (userAddress.energy < 1) return;
+    if (!userAddress.wallet_address) {
+     toast.error("Please connect your wallet first");
+     const audio = new Audio(errorSond);
+     audio.play();
+     return;
+    }
+
+    if (userAddress.energy < 1) {
+      toast.info("Please try after 24hr.", {autoClose: 1000});
+      const audio = new Audio(errorSond);
+      audio.play();
+      return;
+    };
+
+    const audio = new Audio(coinSound);
+    audio.play();
    
-    switch (userAddress.level) {
+    switch (level) {
       case 0:
         setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_1);
         break;
@@ -150,25 +199,25 @@ function Home() {
     }
       
     setTempTab(tempTab + 1);
-
     if (randomTab == tempTab){
       setScore(variable_Comp.Earnings_Per_Tap + variable_Comp.StreaksRFP_5);
     } 
-
     if (tempTab == 10) {
       setRandomTab(Math.floor(Math.random() * 10) + 1);
       setTempTab(0);
     }
+
+    const updateUser = {...userAddress,
+      balance: userAddress.balance + score, 
+      energy: userAddress.energy - 1, 
+    };
     
-    dispatch(updateOnlyUserStore({
-            ranking:0, 
-            wallet_address: userAddress.wallet_address, 
-            balance: userAddress.balance + score, 
-            energy: userAddress.energy - 1, 
-            level: userAddress.level,
-            recoveryEnergyTime: userAddress.recoveryEnergyTime, 
-            createdDate: userAddress.createdDate,
-      }));
+    dispatch(updateUserInfo(updateUser));
+
+    setTimeout(() => {
+      dispatch(updateUserInfoDB(updateUser));
+      console.log("200ms", updateUser);
+    }, 200);
 
     handleClick(event);
   };
@@ -181,30 +230,24 @@ function Home() {
   const handleMouseLeave = () => {
     setImgStatus(false);
   };
-  // console.log("imgStatus", imgStatus);
-
-  // const updateStatus = () => {
-  //   // const nowDate = new Date().toISOString("YYYY-MM-DD")
-  //   console.log(new Date().getDate());
-    
-  // }
 
   return (
-    <div className="mt-8 mb-5 max-sm:mt-3">
+    <div className="bg-blend-exclusion  mt-[4vh] max-md:mt-[3vh] max-sm:mt-[2vh] h-[75vh] max-sm:h-[85vh] ">
       <ToastContainer />
-      <div className="w-full flex justify-center">
-        <TonConnectButton />
+      <div className="max-md:my-2 max-sm:mt-1 w-full flex justify-center">
+        <TonConnectButton/>
       </div>
-
-      <CountDate level={userAddress.level} />
+      <div className="relative flex flex-col items-center justify-center">
+        <CountDate level={level} />
+      </div>
       <div
         id="mainWindow"
-        className={`relative mt-5 flex flex-col items-center justify-center h-[60vh] mb-9 `}
+        className={`relative flex flex-col items-center h-[60vh] max-md:h-[70vh] max-sm:h-[80vh] max-md:mb-7 max-sm:mb-4`}
       >
        
-        <div className="flex flex-col justify-center items-center mb-2">
-          <h3 className="text-3xl font-bold text-[#939392]">Rune Force Point</h3>
-          <h1 className="text-5xl text-white">
+        <div className="flex flex-col justify-center items-center mb-[2vh]">
+          <h3 className="font-bold text-[yellow] text-[3vh]">Force Points</h3>
+          <h1 className="text-white text-[4vh]">
             {formatNumberWithCommas(userAddress.balance)}
           </h1>
         </div>
@@ -212,30 +255,36 @@ function Home() {
           <img
             src="/image/shape.png"
             alt=""
-            className="absolute z-10 left-0 top-[-50px]"
+            className="absolute z-1 fixed left-0 h-[30vh] w-[100vw] "
           />
-          <div
-            className={` relative bg-[url('/image/main.png')] rounded-full bg-cover z-50 w-[400px] h-[400px] max-sm:w-[280px] max-sm:h-[280px] z-10 ${
+          <img
+            src="/image/shape.png"
+            alt=""
+            className="absolute z-3 fixed top-0 left-0 h-[40vh] w-[100vw] "
+          />
+          <div id="rippleButton"
+            className={`relative bg-[url('/image/main.png')] drop-shadow bg-yellow-500 hover:bg-yellow-600 animate-wave-animation rounded-full bg-cover z-50 w-[40vh] h-[40vh] max-w-[85vw] max-h-[85vw] ${
               userAddress.energy > 0
                 ? "cursor-pointer"
                 : "cursor-not-allowed opacity-50"
-            } ${imgStatus ? " border-[5px]" : "border-0"}`}
+            } ${imgStatus ? "scale-[95%] border-[10px]" : "border-0"}`}
             ref={bodyRef}
             onMouseDown={handleMouseDown} 
             onMouseUp={handleMouseLeave}
             onClick={handleTap}
           />
         </div>
-        <div className="flex flex-col justify-center items-center mt-3">
-          <h3 className="text-2xl mb-2 text-white">
-            <span className="text-3xl ">
+        <div className="flex flex-col justify-center items-center my-[1vh]">
+          <h3>
+            <span className="text-3xl max-sm:text-2xl">
               <img
                 src="/image/icon/lightning.svg"
                 alt="lightning"
-                className="w-8 h-8 inline"
+                className={`w-[5vh] h-[5vh] inline ${imgStatus? "scale-[115%]":"scale-[100%]"} `}
               />
             </span>
-            <span className="text-3xl text-white">{userAddress.energy}</span> {`/${variable_Comp.Daily_Tap_Limit}`}
+            <span className={`text-[4vh] ${(userAddress.energy>10)?"text-white text-bold":"text-[#FF0000] text-bold"} red`}>{userAddress.energy}</span> 
+            <span className="text-[3vh] text-white">{`/${variable_Comp.Daily_Tap_Limit}`}</span>
           </h3>
           
         </div>

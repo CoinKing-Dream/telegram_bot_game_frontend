@@ -1,14 +1,18 @@
 export interface walletProfile {
-    ranking: number;
     wallet_address: string;
     balance: number;
     energy: number;
-    level: number;
-    recoveryEnergyTime: string;
+    recoveryDate: string;
     createdDate: string;
+    latestDate: string;
+    weeklyIncRFP: number;
+    monthlyIncRFP: number;
+    loading?: boolean; // Optional property
 }
 export interface walletStateProps {
     user: walletProfile;
     users: walletProfile[];
+    currentDate: string;
+    recoveryDate: string;
     error: object | string | null;
 }

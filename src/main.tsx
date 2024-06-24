@@ -8,7 +8,7 @@ import "./index.css";
 WebApp.ready();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <TonConnectUIProvider manifestUrl="https://mike-coin-bot-1.vercel.app/tonconnect-manifest.json">
+  <TonConnectUIProvider manifestUrl="https://telegram-bot-game-mainfest.vercel.app/rune_force_mainfest.json">
     <App />
   </TonConnectUIProvider>
 );
