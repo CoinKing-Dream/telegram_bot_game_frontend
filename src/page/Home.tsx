@@ -5,8 +5,8 @@ import CountDate from "../component/CountDate";
 import ProgressBar from "../component/ProgressBar";
 import { dispatch } from "../store";
 import { insertWallet, updateUserInfo, getCurrentTime, updateUserInfoDB, updateRecoveryDate } from "../store/reducers/wallet";
-import { TonConnectButton,  } from "@tonconnect/ui-react"; //useTonAddress       useTonWallet
-// import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
+// import { TonConnectButton,  } from "@tonconnect/ui-react"; //useTonAddress       useTonWallet
+import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 import variable_Comp from "../types/variable";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -28,8 +28,8 @@ function Home() {
   const recoveryDate = useSelector((state: RootState) => state.wallet.recoveryDate);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  // const address = useTonAddress(true);
-  const address = "123123";
+  const address = useTonAddress(true);
+  // const address = "123123";
   // const wallet = useTonWallet();
   // console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
@@ -88,9 +88,9 @@ function Home() {
 
     if (!userAddress.energy) {
 
-      if (userAddress.recoveryDate) {
+      if (recoveryDate) {
         let date_1 = new Date(Date.parse(currentDate));
-        let date_2 = new Date(Date.parse(userAddress.recoveryDate));
+        let date_2 = new Date(Date.parse(recoveryDate));
         let diff = (date_1.getTime() - date_2.getTime()) / 1000;
 
         if (diff > 60 * 60 * 24) {
