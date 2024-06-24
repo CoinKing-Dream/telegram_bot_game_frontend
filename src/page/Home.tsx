@@ -94,9 +94,9 @@ function Home() {
         let diff = (date_1.getTime() - date_2.getTime()) / 1000;
 
         if (diff > 60 * 60 * 24) {
-          dispatch(updateUserInfo(Object.assign({}, userAddress, {energy: 30/*Daily_Tap_Limit*/, recoveryDate: ''})));
+          dispatch(updateUserInfo(Object.assign({}, userAddress, {energy: variable_Comp.Daily_Tap_Limit, recoveryDate: ''})));
           dispatch(updateRecoveryDate(''));
-          dispatch(updateUserInfoDB(Object.assign({}, userAddress, {energy: 30/*Daily_Tap_Limit*/, recoveryDate: ''})));
+          dispatch(updateUserInfoDB(Object.assign({}, userAddress, {energy: variable_Comp.Daily_Tap_Limit, recoveryDate: ''})));
         }
       } else {
         dispatch(updateUserInfo(Object.assign({}, userAddress, {recoveryDate: currentDate})));

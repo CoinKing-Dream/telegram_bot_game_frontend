@@ -20,13 +20,13 @@ export default function Footer() {
             audio.play();
           }          
         }
-        className={`hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
+        className={`hover:scale-[115%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition  hover:brightness-150 hover:drop-shadow-lg ${
           path === "/ranking"
-            ? "-translate-y-2 scale-[125%] opacity-100"
+            ? "-translate-y-1 scale-[115%] opacity-100"
             : "opacity-50 text-white"
         }`}
       >
-        <img src="/image/ranking.png" alt="ranking" className="w-[8vh] h-[8vh]" />
+        <img src="/image/ranking.png" alt="ranking" className="w-[7vh] h-[7vh]" />
         <p className="text-sm max-sm:text-sm text-white">RANKING</p>
       </Link>
       <Link
@@ -36,11 +36,11 @@ export default function Footer() {
           audio.play();
           }          
         }
-        className={`  hover:scale-[120%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
-          path === "/" ? "-translate-y-2 scale-[125%] opacity-100" : "opacity-50 text-white"
+        className={`  hover:scale-[115%] flex transition duration-0 hover:duration-150 flex-col items-center justify-center cursor-pointer transform origin-bottom transition hover:brightness-150 hover:drop-shadow-lg"> ${
+          path === "/" ? "-translate-y-1 scale-[115%] opacity-100" : "opacity-50 text-white"
         }`}
       >
-        <img src="/image/mining.png" alt="play" className="w-[8vh] h-[8vh]" />
+        <img src="/image/mining.png" alt="play" className="w-[7vh] h-[7vh]" />
         <p className="text-sm max-sm:text-sm text-white">MINT</p>
       </Link>
       
