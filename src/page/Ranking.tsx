@@ -2,11 +2,13 @@ import { useState } from "react";
 import RankingList from "../component/RankingList";
 // import { Menu, MenuHandler,MenuList,MenuItem, Avatar} from "@material-tailwind/react";
 import IconButton from '@mui/material/IconButton';
+import {toast, ToastContainer} from "react-toastify";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import React from "react";
 import buttonSound from "../assets/sound/button.wav";
+import { useEffect } from "react";
 
 const options = [
   'Recently',
@@ -32,11 +34,22 @@ export default function Ranking() {
     const menuItemValue = (event.target as HTMLElement).getAttribute("value") || "Recently";
     setSelectedOption(menuItemValue);
   };
+
+  useEffect(() => {
+    if (selectedOption == "Recently") {     
+      toast.info("The latest rankings are displayed.", {autoClose: 1000});
+    } else if (selectedOption == "Weekly") {
+      toast.info("Weekly rankings are displayed.", {autoClose: 1000});
+    } else if (selectedOption == "Monthly") {
+      toast.info("Monthly rankings are displayed.", {autoClose: 1000});
+    }
+  }, [selectedOption]);
   
   return (
     <div className="Ranking max-w-full mx-auto text-white h-[75vh] max-sm:mt-3 mt-6">
+      <ToastContainer />
       <div className="flex justify-center items-center">
-        <h1 className="z-1 text-4xl text-bold max-sm:text-2xl mb-[2vh] max-w-[500px] mx-auto text-start text-white flex justify-center font-bold">🚀 Ranking</h1>
+        <h1 className="z-1 text-4xl text-bold max-sm:text-2xl mb-[2vh] max-w-[500px] mx-auto text-start text-white flex justify-center font-bold">🚀 {selectedOption} Ranking</h1>
         <div className="w-12 max-sm:w-10 text-center  flex justify-center items-center z-10">
           <IconButton
             aria-label="more"

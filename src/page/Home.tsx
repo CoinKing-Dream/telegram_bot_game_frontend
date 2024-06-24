@@ -27,36 +27,29 @@ function Home() {
   const currentDate = useSelector((state: RootState) => state.wallet.currentDate);
   const recoveryDate = useSelector((state: RootState) => state.wallet.recoveryDate);
   const bodyRef = useRef<HTMLDivElement>(null);
+  
 
-  const address = useTonAddress(true);
-  // const address = "123123";
+  // const address = useTonAddress(true);
+  const address = "UQCaAcIsJkF2345234s9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0ZH";
   // const wallet = useTonWallet();
   // console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);
 
   // when wallet is connected....
+  
   useEffect(() => {
     if (address != null && userAddress.wallet_address != address ){
       // alert(address);
       dispatch(insertWallet(address));
-
-      const intervalID = setInterval(() => {
-        setTime(time => !time);
-      }, 1000);
-      return () => clearInterval(intervalID);
     } 
 
-    console.log("LSR", userAddress);
-    
+    const intervalID = setInterval(() => {
+      setTime(time => !time);
+    }, 1000);
+    return () => clearInterval(intervalID);
+
   }, [address]);
-
-  // Save all data when componenet is unmounted.
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(updateUserInfoDB({...userAddress, latestDate: currentDate}))
-  //   }
-  // }, []);
-
+  
   // Increase level if condition is fit
   useEffect(() => {
     switch (level) {
@@ -79,6 +72,7 @@ function Home() {
   }, [level])
   
   useEffect(() => {
+    console.log("time");
     if (!userAddress.wallet_address) return;
 
     //Get current time of backend
@@ -125,17 +119,7 @@ function Home() {
       }
     }
     
-    // Update weekly and monthly balance of current user.
-    if (userAddress) {
-      // const now = new Date(Date.parse(currentDate));
-      
-      // dispatch(updateUserInfo(Object.assign({}, tempUser, {weekBalance: 0})));
-
-      // dispatch(updateUserInfo(Object.assign({}, tempUser, {monthBalance: 0})));
-    }
-
   }, [time])
-  
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number);

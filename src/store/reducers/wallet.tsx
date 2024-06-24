@@ -24,7 +24,7 @@ const initialState: walletStateProps = {
   },
   users: [],
   currentDate: '',
-  recoveryDate: ''
+  recoveryDate: '',
 };
 
 const wallet = createSlice({

@@ -12,51 +12,53 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
   const user = useSelector((state: RootState) => state.wallet.user);
   const [ranking, setRanking] = useState<Number>(0);
   const tempUsers = useSelector((state: RootState) => state.wallet.users);
-  const [displayUsers, setDisplayUsers] = useState<walletProfile []>([]);
-  
-  dispatch(getAllWallets());
+  const [displayUsers, setDisplayUsers] = useState<walletProfile[]>([]);
+  const [realUsers, setRealUsers] = useState<walletProfile[]>([]);
+  const [time, setTime] = useState<boolean>(true);
+
   useEffect(() => {
-    // dispatch(getAllWallets());
-    if (selectedOption == "Recently"){      
-      setDisplayUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
+    const intervalID = setInterval(() => {
+      setTime(time => !time);
+    }, 1000);
+    return () => clearInterval(intervalID);
+  }, []);
+
+  useEffect(() => {
+    console.log("time");
+    
+    dispatch(getAllWallets());
+  }, [time]);
+
+
+  // 
+
+  useEffect(() => {
+    let updatedUsers = tempUsers.filter((_user: any) => _user.wallet_address !== user.wallet_address);
+    updatedUsers.push(user);
+
+    if (selectedOption == "Recently") {      
+      setDisplayUsers(updatedUsers.slice().sort((_a: any, _b: any) => (_b.balance - _a.balance) ));
     } else if (selectedOption == "Weekly") {
-      setDisplayUsers(tempUsers.slice().sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
+      setDisplayUsers(updatedUsers.slice().sort((_a: any, _b: any) => (_b.weeklyIncRFP - _a.weeklyIncRFP) ));      
     } else if (selectedOption == "Monthly") {
-      setDisplayUsers(tempUsers.slice(0, 50).sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));   
+      setDisplayUsers(updatedUsers.slice().sort((_a: any, _b: any) => (_b.monthlyIncRFP - _a.monthlyIncRFP) ));   
     }
     
-    // alert(users.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1)
-   
-  }, [selectedOption]);
+  }, [tempUsers]);
 
   useEffect(() => {
     
      if(selectedOption == "Recently") {
         setRanking(displayUsers.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
+        setRealUsers(displayUsers);
      } else if (selectedOption == "Weekly") {
         setRanking(displayUsers.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
-        setDisplayUsers(displayUsers.slice(0, 10));
+        setRealUsers(displayUsers.slice(0, 10));
      } else if (selectedOption == "Monthly") {
         setRanking(displayUsers.findIndex((_user: any) => _user.wallet_address == user.wallet_address) + 1);
-        setDisplayUsers(displayUsers.slice(0, 50));  
+        setRealUsers(displayUsers.slice(0, 50));  
      }
   }, [displayUsers]);  //, user, ranking
-  // const [rankings, setRankings] = useState([]);
-
-  // useEffect(() => {
-  //   const socket = io('http://localhost:5000');
-  //   socket.emit("helo", "world");
-  //   console.log(socket.active);
-  //   socket.on('ranking-update', (data) => {
-  //     // setRankings(data.rankings);
-  //     console.log("success");
-  //     console.log("success");
-  // });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
 
   function formatNumberWithCommas(number: number, locale = "en-US") {
     return new Intl.NumberFormat(locale).format(number) ;
@@ -69,7 +71,7 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
           <div className="text-start min-w-[70px] flex justify-center">🥯 RFP</div>
         </div>
       <div className="h-[55vh] overflow-auto">
-        {displayUsers.map((data, index) => (
+        {realUsers.map((data, index) => (
           
           <div
             key={index}
