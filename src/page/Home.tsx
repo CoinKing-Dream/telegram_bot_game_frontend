@@ -30,7 +30,6 @@ function Home() {
   
 
   const address = useTonAddress(true);
-  // const address = "UQCaAcIsJkF2345234s9Au9PWIo1OBnnzaJREbm-YJDt3Zx9c0ZH";
   const wallet = useTonWallet();
   console.log("--------->", wallet?.device, address);
   // console.log("start" + `${JSON.stringify(userAddress)}`);

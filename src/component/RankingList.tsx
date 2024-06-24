@@ -29,9 +29,6 @@ export default function RankingList({selectedOption}: {selectedOption: any}) {
     dispatch(getAllWallets());
   }, [time]);
 
-
-  // 
-
   useEffect(() => {
     let updatedUsers = tempUsers.filter((_user: any) => _user.wallet_address !== user.wallet_address);
     if (user.wallet_address) updatedUsers.push(user);
